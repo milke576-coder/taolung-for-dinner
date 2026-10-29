@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>泰隆晚餐籤筒</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: yolk-yellow hero where 小飽 asks about your mood → filter strip → three "dish" cards led by a review quote → scale map → full list */
+:root{
+  --bg:#FFF9F1;--surface:#FFFFFF;--ink:#3A2216;--muted:#8A6E5E;--line:#F0DFCF;
+  --tomato:#E5442C;--tomato-soft:#FDE3DC;--yolk:#FFC83D;--yolk-soft:#FFF0C2;--basil:#3B8A57;--basil-soft:#DDF0E2;--plum:#8A5BB8;--plum-soft:#EFE3F8;--sky:#2B78B0;--sky-soft:#DDEEFA;--blouse:#FFF6EA;--shirt:#F49A3C;--shirt-line:#D97D22;
+  --hero:#FFD25A;--hero-ink:#3A2216;--dim:#E2D3C6;--skin:#FFE0C7;--hair:#3A2216;
+  --display:"LXGW WenKai TC","Kaiti TC","STKaiti",serif;--body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1C1410;--surface:#2A1E18;--ink:#F7EADF;--muted:#BFA693;--line:#43322A;
+  --tomato:#FF6B50;--tomato-soft:#4A2219;--yolk:#FFCF57;--yolk-soft:#3F3218;--basil:#6CC08A;--basil-soft:#1E3526;--plum:#C29BEA;--plum-soft:#352745;--sky:#6FB6EA;--sky-soft:#1C3142;--blouse:#F3E7D6;--shirt:#E8893A;--shirt-line:#C46E22;
+  --hero:#3A2A16;--hero-ink:#FFE7B3;--dim:#4A3A31;--skin:#F5CFB2;--hair:#20130C;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1C1410;--surface:#2A1E18;--ink:#F7EADF;--muted:#BFA693;--line:#43322A;
+  --tomato:#FF6B50;--tomato-soft:#4A2219;--yolk:#FFCF57;--yolk-soft:#3F3218;--basil:#6CC08A;--basil-soft:#1E3526;--plum:#C29BEA;--plum-soft:#352745;--sky:#6FB6EA;--sky-soft:#1C3142;--blouse:#F3E7D6;--shirt:#E8893A;--shirt-line:#C46E22;
+  --hero:#3A2A16;--hero-ink:#FFE7B3;--dim:#4A3A31;--skin:#F5CFB2;--hair:#20130C;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:780px;margin:0 auto}
+/* hero */
+.hero{background:var(--hero);color:var(--hero-ink);background-image:radial-gradient(color-mix(in srgb,var(--hero-ink) 9%,transparent) 1.3px,transparent 1.6px);background-size:22px 22px;padding-block:22px 26px;border-radius:0 0 28px 28px}
+.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;opacity:.75}
+.hero-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:end;margin-top:8px}
+@media (max-width:520px){.hero-row{grid-template-columns:118px minmax(0,1fr)}}
+.bao{width:100%;height:auto;display:block}
+.bubble{background:var(--surface);color:var(--ink);border-radius:20px 20px 20px 6px;padding:14px 16px;position:relative;box-shadow:0 3px 0 color-mix(in srgb,var(--hero-ink) 18%,transparent);min-width:0}
+.bubble h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,5.4vw,30px);line-height:1.3;margin:0;text-wrap:balance}
+.bubble p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.heart{color:var(--tomato)}
+.say{font-family:var(--display);font-size:17px;line-height:1.5;margin:0;min-height:1.5em}
+.moods{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.mood{font:inherit;font-size:14px;padding:7px 13px;border-radius:999px;border:2px solid var(--hero-ink);background:var(--surface);color:var(--ink);cursor:pointer;transition:transform .12s}
+.mood:hover{transform:translateY(-2px)}
+.mood[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.mood:focus-visible,.go:focus-visible,.ghost:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.ask{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.ask .btns{display:flex;gap:10px;flex:1 1 100%}.ask .btns .go{flex:1 1 0}
+.ask input{flex:1 1 100%;min-width:0;font:inherit;padding:10px 14px;border-radius:14px;border:2px solid var(--hero-ink);background:var(--surface);color:var(--ink)}
+.go{font-family:var(--display);font-weight:700;font-size:19px;padding:11px 18px;border-radius:14px;border:0;background:var(--tomato);color:#fff;cursor:pointer;box-shadow:0 4px 0 color-mix(in srgb,var(--tomato) 55%,#000)}
+.go:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--tomato) 55%,#000)}
+.go:disabled{opacity:.6}.go.alt{background:var(--surface);color:var(--ink);box-shadow:0 4px 0 var(--hero-ink);border:2px solid var(--hero-ink)}.go.alt:active{box-shadow:0 1px 0 var(--hero-ink)}
+.ghost{font:inherit;font-size:13.5px;background:transparent;border:0;color:var(--hero-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 2px}
+/* filters */
+main{display:flex;flex-direction:column;gap:22px;padding-block:20px 56px}
+.filters{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
+.seg{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.pchip{font:inherit;font-size:13px;padding:4px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.pchip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.pchip:focus-visible{outline:2px solid var(--tomato);outline-offset:2px}
+.switch{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;font-size:13.5px}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.track{width:42px;height:24px;border-radius:12px;background:var(--dim);position:relative;transition:background .2s;flex:none}
+.track::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--surface);transition:transform .2s}
+.switch input:checked+.track{background:var(--plum)}#mall:checked+.track{background:var(--sky)}#gymt:checked+.track{background:var(--basil)}
+.switch input:checked+.track::after{transform:translateX(18px)}
+.switch input:focus-visible+.track{outline:2px solid var(--tomato);outline-offset:2px}
+select{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.poolinfo{font-size:12.5px;color:var(--muted);width:100%;font-variant-numeric:tabular-nums}
+.poolinfo b{color:var(--ink);font-family:var(--mono)}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.cards{grid-template-columns:1fr}}
+.card{background:var(--surface);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 2px 0 var(--line),0 10px 24px -14px color-mix(in srgb,var(--ink) 35%,transparent);animation:pop .42s cubic-bezier(.2,1.4,.4,1) both}
+.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.16s}
+@keyframes pop{from{transform:translateY(14px) scale(.96);opacity:.2}to{transform:none;opacity:1}}
+.plate{position:relative;height:104px;display:flex;align-items:center;justify-content:center}
+.plate svg{height:84px;width:auto}
+.plate .rank{position:absolute;left:14px;top:10px;font-family:var(--display);font-weight:700;font-size:15px;color:var(--ink);opacity:.8}
+.plate .price{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--surface);color:var(--ink)}
+.t-noodle{background:var(--yolk-soft)}.t-pot{background:var(--tomato-soft)}.t-rice{background:#FBE6CF}.t-west{background:var(--plum-soft)}.t-fried{background:#FCE8BD}.t-green{background:var(--basil-soft)}
+:root[data-theme="dark"] .t-rice,:root[data-theme="dark"] .t-fried{background:var(--yolk-soft)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .t-rice,:root:not([data-theme="light"]) .t-fried{background:var(--yolk-soft)}}
+.cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.quote{font-family:var(--display);font-size:18px;line-height:1.55;margin:0;color:var(--ink);text-wrap:pretty}
+.quote::before{content:"「"}.quote::after{content:"」"}
+.qsrc{font-size:11.5px;color:var(--muted);margin-top:-6px;display:flex;justify-content:space-between;gap:8px}
+.qsrc button{font:inherit;font-size:11.5px;color:var(--tomato);background:none;border:0;padding:0;cursor:pointer}
+.why{font-size:13px;background:var(--yolk-soft);color:var(--ink);border-radius:10px;padding:6px 10px}
+.why b{font-family:var(--display)}
+.name{font-size:17px;font-weight:700;margin:0;line-height:1.35;overflow-wrap:anywhere}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;align-items:center;color:var(--muted)}
+.chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap}
+.z-near{background:var(--tomato-soft);color:var(--tomato)}.z-gym{background:var(--basil-soft);color:var(--basil)}.z-walk12{background:var(--plum-soft);color:var(--plum)}.z-mall{background:var(--sky-soft);color:var(--sky)}
+.cat{border:1px solid var(--line);color:var(--ink)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.star{color:#E79A00}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.acts a,.acts button{font:inherit;font-size:13px;padding:6px 11px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;text-decoration:none}
+.acts a.primary{background:var(--tomato);color:#fff;border-color:var(--tomato)}
+.acts a:focus-visible,.acts button:focus-visible{outline:2px solid var(--tomato);outline-offset:2px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:26px 10px;border:2px dashed var(--line);border-radius:22px;font-family:var(--display);font-size:17px}
+.recent{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.recent button{font:inherit;font-size:12px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:1px 9px;cursor:pointer}
+.mallnote{margin:-4px 0 12px;font-size:13px;color:var(--muted)}
+.malllist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.mi{border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.mi.off{opacity:.55}
+.mi b{font-size:14.5px;overflow-wrap:anywhere}
+.mi q{font-family:var(--display);font-size:14px;quotes:"「" "」"}
+.mi a{font-size:12.5px;color:var(--tomato)}
+.panel{background:var(--surface);border-radius:22px;padding:16px;box-shadow:0 2px 0 var(--line)}
+h2{font-family:var(--display);font-size:22px;margin:0 0 10px;font-weight:700}
+svg.map{width:100%;height:auto;display:block;border-radius:14px;background:var(--bg)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.tip{margin-top:10px;font-size:13.5px;min-height:24px}
+.tip a{color:var(--tomato)}
+details summary{cursor:pointer;font-family:var(--display);font-weight:700;font-size:20px}
+.tbl{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:500}
+td a{color:var(--ink)}
+tr.off td,tr.off td a{color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);line-height:1.7}
+.steam path{animation:steam 2.4s ease-in-out infinite;transform-origin:center bottom}
+.steam path:nth-child(2){animation-delay:.6s}.steam path:nth-child(3){animation-delay:1.2s}
+@keyframes steam{0%{opacity:0;transform:translateY(6px)}40%{opacity:.85}100%{opacity:0;transform:translateY(-8px)}}
+.eyes-open{animation:eyes 9s infinite}.eyes-smile{opacity:0;animation:smile 9s infinite}
+@keyframes eyes{0%,20%,24%,52%,100%{transform:scaleY(1);opacity:1}22%{transform:scaleY(.1);opacity:1}55%,92%{opacity:0;transform:scaleY(1)}95%{opacity:1}}
+@keyframes smile{0%,52%,95%,100%{opacity:0}55%,92%{opacity:1}}
+.dots::after{content:"";animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"．"}50%{content:"．．"}75%{content:"．．．"}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="band hero">
+ <div class="inner">
+  <div class="eyebrow">新莊・泰隆大鎮 A 區 晚餐籤筒</div>
+  <div class="hero-row">
+   <svg class="bao" viewBox="0 0 150 170" role="img" aria-label="小飽，一位長髮、捧著熱湯麵的大姐姐">
+    <g class="steam" fill="none" stroke="var(--hero-ink)" stroke-width="3" stroke-linecap="round" opacity=".6">
+      <path d="M60 124c-5-7 5-11 0-18"/><path d="M76 122c-5-7 5-11 0-18"/><path d="M92 124c-5-7 5-11 0-18"/></g>
+    <!-- long hair back -->
+    <path d="M30 70C26 30 50 10 75 10s49 20 45 60l4 70c0 6-4 9-10 9H36c-6 0-10-3-10-9z" fill="var(--hair)"/>
+    <!-- neck + body -->
+    <rect x="67" y="94" width="16" height="16" rx="5" fill="var(--skin)"/>
+    <path d="M16 180c0-42 24-70 59-72 35 2 59 30 59 72z" fill="var(--shirt)"/>
+    <path d="M64 108l11 15 11-15" fill="var(--blouse)" stroke="var(--shirt-line)" stroke-width="2"/>
+    <!-- face -->
+    <ellipse cx="75" cy="68" rx="30" ry="34" fill="var(--skin)"/>
+    <!-- side-swept bangs -->
+    <path d="M44 66C42 36 58 22 78 22c18 0 30 12 29 32-8-9-15-13-27-14-10 10-22 18-36 26z" fill="var(--hair)"/>
+    <path d="M45 60c-5 18-5 36 1 52l8-2c-5-15-5-32-1-48z" fill="var(--hair)"/>
+        <!-- strands over shoulders -->
+    <path d="M46 100c-7 16-8 32-4 48l10-2c-3-14-2-30 3-44z" fill="var(--hair)"/>
+    <path d="M104 100c7 16 8 32 4 48l-10-2c3-14 2-30-3-44z" fill="var(--hair)"/>
+    <!-- chili clip -->
+    <g transform="translate(96 30) rotate(32)"><path d="M0 0c6 0 9 6 7 14-2 7-8 12-14 14 4-6 5-12 3-18-1-5 1-10 4-10z" fill="var(--tomato)"/><path d="M2 -1c1-4 4-5 6-4" stroke="var(--yolk)" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+    <!-- brows -->
+    <path d="M55 58q7-4 13-1M82 57q6-3 13 1" stroke="var(--hair)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- eyes (almond, lashes) -->
+    <g class="eyes-open" style="transform-origin:75px 72px">
+      <ellipse cx="63" cy="72" rx="5.2" ry="6.4" fill="var(--hair)"/><ellipse cx="87" cy="72" rx="5.2" ry="6.4" fill="var(--hair)"/>
+      <circle cx="65" cy="69.8" r="2" fill="#fff"/><circle cx="89" cy="69.8" r="2" fill="#fff"/><circle cx="61.6" cy="74.6" r=".9" fill="#fff"/><circle cx="85.6" cy="74.6" r=".9" fill="#fff"/>
+          </g>
+    <g class="eyes-smile" fill="none" stroke="var(--hair)" stroke-width="3" stroke-linecap="round"><path d="M57 74q6-7 12 0"/><path d="M81 74q6-7 12 0"/></g>
+    <ellipse cx="55" cy="83" rx="5" ry="2.8" fill="var(--tomato)" opacity=".25"/><ellipse cx="95" cy="83" rx="5" ry="2.8" fill="var(--tomato)" opacity=".25"/>
+    <path d="M74 80q1 3 3 2" stroke="var(--hair)" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>
+    <path d="M68 89q7 5 14 0" stroke="var(--tomato)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <circle cx="45.5" cy="80" r="2.6" fill="var(--yolk)"/><circle cx="104.5" cy="80" r="2.6" fill="var(--yolk)"/>
+    <!-- bowl -->
+    <path d="M40 132h70c0 22-16 34-35 34s-35-12-35-34z" fill="var(--surface)" stroke="var(--hero-ink)" stroke-width="3"/>
+    <path d="M46 132c6-6 12 0 18-5s12 2 18-3 12 3 22 8" stroke="var(--yolk)" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M52 144h46" stroke="var(--tomato)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 7"/>
+    <path d="M98 138l30-34M104 140l28-30" stroke="var(--hero-ink)" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="44" cy="146" r="7" fill="var(--skin)"/><circle cx="106" cy="146" r="7" fill="var(--skin)"/>
+   </svg>
+   <div class="bubble">
+     <h1 id="hello">庭庭～上班辛苦了 <span class="heart">♥</span></h1>
+     <p class="say" id="say">今天來吃點美食吧！</p>
+   </div>
+  </div>
+  <div class="moods" id="moods" role="group" aria-label="今天的心情"></div>
+  <form class="ask" id="askform">
+    <input id="ask" type="text" maxlength="80" placeholder="或打字跟小飽說：好冷想吃熱的、想吃辣、預算不多…" aria-label="跟小飽說你的心情">
+    <div class="btns"><button class="go" id="go" type="submit">幫我挑</button><button class="go alt" id="rand" type="button">隨便抽三間</button></div>
+  </form>
+ </div>
+</header>
+
+<main class="band"><div class="inner" style="display:flex;flex-direction:column;gap:22px">
+ <section class="filters" aria-label="篩選">
+   <div class="seg" role="group" aria-label="價位">價位
+     <button class="pchip" data-p="all" aria-pressed="true">不限</button>
+     <button class="pchip" data-p="lt200" aria-pressed="false">$200 以下</button>
+     <button class="pchip" data-p="200-400" aria-pressed="false">$200–400</button>
+     <button class="pchip" data-p="gt400" aria-pressed="false">$400 以上</button>
+   </div>
+   <label class="switch" for="gymt"><input type="checkbox" id="gymt"><span class="track"></span>今天要去健身</label>
+   <label class="switch" for="far"><input type="checkbox" id="far"><span class="track"></span>願意走 12 分鐘</label>
+   <label class="switch" for="mall"><input type="checkbox" id="mall"><span class="track"></span>我想去宏匯</label>
+   <label class="seg" for="day">晚餐日
+     <select id="day"><option value="0">週一</option><option value="1">週二</option><option value="2">週三</option><option value="3">週四</option><option value="4">週五</option><option value="5">週六</option><option value="6">週日</option></select></label>
+   <div class="poolinfo" id="poolinfo"></div>
+ </section>
+
+ <section class="cards" id="cards" aria-live="polite"></section>
+ <div class="recent" id="recent"></div>
+ <section class="panel" id="mallbox" hidden>
+  <h2>宏匯廣場裡的餐廳</h2>
+  <p class="mallnote" id="mallnote"></p>
+  <div class="malllist" id="malllist"></div>
+ </section>
+
+ <section class="panel">
+  <h2>附近地圖</h2>
+  <svg class="map" id="map" role="img" aria-label="泰隆大鎮A區附近餐廳分布圖"></svg>
+  <div class="legend">
+   <span><i style="background:var(--tomato)"></i>A 區周邊</span>
+   <span><i style="background:var(--basil)"></i>往健身工廠路上</span>
+   <span><i style="background:var(--plum)"></i>走 12 分鐘內</span>
+   <span><i style="background:var(--sky)"></i>宏匯廣場</span>
+   <span><i style="background:var(--dim)"></i>今天不在籤筒裡</span>
+  </div>
+  <div class="tip" id="tip">點地圖上的點，可以看店名和評論。</div>
+ </section>
+
+ <section class="panel">
+  <details><summary>全部店家清單</summary><div class="tbl"><table><thead><tr><th>店名</th><th>類型</th><th>價位</th><th>評分</th><th>步行</th><th>當天晚餐</th></tr></thead><tbody id="rows"></tbody></table></div></details>
+ </section>
+
+ <p class="foot">店家、評分、營業時間與評論摘錄來自 Google 地圖（2026/10/29 抓取，評論為翻譯後摘錄），共 <span id="total"></span> 間：評分 4.0 以上、至少 10 則評論。價位是依評論提到的價格、Google 價格等級與一般行情估計的每人晚餐花費，僅供參考。步行時間以 A 區（中原路 305 號）直線距離 ×1.3、每分鐘 75m 估算。17:30–21:00 間營業滿 60 分鐘才算晚餐有開。「走 12 分鐘」範圍約為直線 690m 內。打開「今天要去健身」時只推薦往健身工廠路上的店，打開「我想去宏匯」時只推薦宏匯廣場裡的店。打字問小飽時，會用你自己的 Claude 額度請 Claude 從籤筒裡挑店；不能用時，改用心情標籤自動配對。</p>
+</div></main>
+
+<script>
+const DATA=[{"id":"ChIJO6exSbupQjQRiD7U_pwYxNs","n":"森禾良食精緻健康餐盒","c":"健康餐","r":5.0,"k":70,"la":25.054214,"lo":121.449841,"z":"near","d":221,"h":[[[660,840],[960,1200]],[[660,840],[960,1200]],[[660,840],[960,1200]],[[660,840],[960,1200]],[[660,840],[960,1200]],[[660,840],[960,1200]],[]],"hk":["厚切鮭魚超好吃，非常嫩一點都不乾，大推！","健康便當超有飽足感，雞胸肉嫩到不行，大推！"],"dish":"厚切鮭魚","m":["清爽健康","快速解決","一個人也自在"],"pr":"lt200","est":150},{"id":"ChIJG0SVP0qpQjQRF4mVA_HcTaw","n":"Kitchen CreAfe' 客意直火","c":"義式","r":4.5,"k":1202,"la":25.054752,"lo":121.453043,"z":"walk12","d":547,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]]],"hk":["披薩大推！建議內用，熱起司在嘴裡融化超享受","選擇很多，有飲食限制的人也有很多選項"],"dish":"直火披薩","m":["異國風","犒賞自己"],"pr":"200-400","est":400},{"id":"ChIJTRSMCrapQjQRnuRtsHu5wYM","n":"今今野菜 x 本味雞","c":"健康餐","r":4.7,"k":158,"la":25.057671,"lo":121.450324,"z":"walk12","d":469,"h":[[[690,1200]],[[690,1200]],[[690,1200]],[[690,1200]],[[690,1200]],[[690,1200]],[[690,1200]]],"hk":["台式沙拉食材超新鮮，雞肉軟嫩、醬汁超讚","白桃烏龍茶一定要點，真的超好喝！泡菜也很開胃"],"dish":"本味雞沙拉碗","m":["清爽健康","想吃飯","一個人也自在"],"pr":"lt200","est":190},{"id":"ChIJfxK3LACpQjQRCJGt76rT33U","n":"馥牛 越式料理 新莊中原店","c":"越式","r":4.5,"k":501,"la":25.05424,"lo":121.447992,"z":"near","d":35,"h":[[[630,1320]],[[630,1320]],[[630,1320]],[[630,1320]],[[630,1320]],[[630,1320]],[[630,1320]]],"hk":["湯頭鮮甜夠味，河粉好吃，還能免費加河粉","食材很優質，湯頭很有味道，價格也合理"],"dish":"牛肉河粉","m":["異國風","想喝湯","想吃麵"],"pr":"200-400","est":250},{"id":"ChIJ1Tlgu0SpQjQRZpibz8QngjQ","n":"寓見。胖 Brunch&Pasta","c":"義式","r":4.7,"k":450,"la":25.053866,"lo":121.453007,"z":"walk12","d":541,"h":[[[630,960]],[],[[630,960]],[[630,960]],[[630,960]],[[630,960]],[[630,960]]],"hk":["推早午餐和漢堡，一樣多汁好吃，份量大很划算","新莊目前吃過最棒的早午餐！餐點好、氣氛很放鬆"],"dish":"早午餐盤","m":["異國風","犒賞自己","一個人也自在"],"pr":"200-400","est":280},{"id":"ChIJ93RmbACpQjQRdtdAKWQF74s","n":"春禾經典小吃舖","c":"小吃","r":4.5,"k":87,"la":25.05305,"lo":121.447789,"z":"near","d":131,"h":[[[660,870],[990,1230]],[[660,870],[990,1230]],[[660,870],[990,1230]],[[660,870],[990,1230]],[[660,870],[990,1230]],[[660,870],[990,1230]],[[660,870],[990,1230]]],"hk":["蚵仔煎火候剛剛好，蛤蜊湯非常鮮甜好喝","蚵仔煎好好吃，滷肉飯也很不錯，用餐環境很舒適"],"dish":"蚵仔煎","m":["快速解決","想吃飯","想喝湯"],"pr":"lt200","est":180},{"id":"ChIJSwgbzXioQjQRkBxur25J4HA","n":"肥貓小吃","c":"小吃","r":4.4,"k":118,"la":25.053118,"lo":121.448475,"z":"near","d":148,"h":[[[690,1320]],[[690,1320]],[[690,1320]],[[690,1320]],[[690,1320]],[],[]],"hk":["湯麵很香，鴨血入味又好吃，辣椒醬也超香","乾麵的醬汁風味很獨特，料理水準很高，值五顆星"],"dish":"招牌湯麵","m":["快速解決","想吃麵","一個人也自在"],"pr":"lt200","est":130},{"id":"ChIJlaa3Z36oQjQR8as2ErHbQLE","n":"中義街乾麵","c":"麵食","r":4.2,"k":803,"la":25.051049,"lo":121.449874,"z":"walk12","d":418,"h":[[],[[390,870]],[[390,870]],[[390,870]],[[390,870]],[[390,870]],[[390,870]]],"hk":["豬肝餛飩湯好喝，豬肝嫩又鮮，薑絲湯頭很讚","在地好味道，乾麵配餛飩湯必點，小菜最推豬軟骨"],"dish":"乾麵","m":["快速解決","想吃麵","想喝湯"],"pr":"lt200","est":110},{"id":"ChIJOb3m9H6oQjQR4Lh4I07XjTo","n":"阿明烏醋麵","c":"麵食","r":4.3,"k":274,"la":25.050433,"lo":121.449773,"z":"walk12","d":472,"h":[[],[],[[360,810]],[[360,810]],[[360,810]],[[360,810]],[[360,810]]],"hk":["乾麵帶淡淡烏醋香，辣椒一流，綜合湯料超多","小菜三層肉Q彈鮮甜不腥，大碗份量超足"],"dish":"烏醋乾麵","m":["快速解決","想吃麵","重口味"],"pr":"lt200","est":110},{"id":"ChIJRdOPXX6oQjQRDPyL1GJW0qQ","n":"無名麵店","c":"麵食","r":4.3,"k":97,"la":25.051049,"lo":121.449874,"z":"walk12","d":418,"h":[[],[[390,870]],[[390,870]],[[390,870]],[[390,870]],[[390,870]],[[390,870]]],"hk":["老闆用心熬的湯頭很鮮甜，餛飩有肉香超好吃","豬骨湯料多又實在，肉質超級嫩，老味道很讚"],"dish":"餛飩湯","m":["快速解決","想吃麵","想喝湯"],"pr":"lt200","est":110},{"id":"ChIJPVGQ0H-oQjQRO-gsBSxPmDg","n":"大腸麵線香菇肉羹","c":"麵食","r":4.2,"k":109,"la":25.053279,"lo":121.447716,"z":"near","d":105,"h":[[[420,1140]],[[420,960]],[[420,1140]],[[420,1140]],[[420,1140]],[[420,1140]],[[420,1140]]],"hk":["自製餛飩超讚，乾陽春麵口感一級棒，小菜也好吃","大腸和肉羹嫩而不爛，小碗才40元超划算"],"dish":"大腸麵線","m":["快速解決","想吃麵","想喝湯"],"pr":"lt200","est":90},{"id":"ChIJQYjZKAipQjQRD_O-Y1WVp-U","n":"杰米義式廚房 中平店","c":"義式","r":4.6,"k":252,"la":25.050884,"lo":121.446355,"z":"gym","d":393,"h":[[[1035,1200]],[[705,840],[1035,1200]],[[705,840],[1035,1200]],[[1035,1200]],[[705,840],[1035,1200]],[[705,840],[1035,1200]],[]],"hk":["司康超好吃，吃完就懂為什麼每桌都點一個！","義大利麵配墨西哥餅，滿滿手作配料，超級美味！"],"dish":"司康","m":["異國風","想吃麵","一個人也自在"],"pr":"200-400","est":220},{"id":"ChIJ1zYpmtKpQjQRCSnMzoGUQAE","n":"真的好京漾飯店","c":"台菜","r":4.5,"k":372,"la":25.053389,"lo":121.451458,"z":"walk12","d":395,"h":[[[690,840],[1050,1320]],[[690,840],[1050,1320]],[[690,840],[1050,1320]],[[690,840],[1050,1320]],[[690,840],[1050,1320]],[[690,840],[1050,1320]],[[690,840],[1050,1320]]],"hk":["金沙炒水蓮菇炒得超香，台灣牛配燒餅酥脆好吃","蒜蓉蝦粉絲煲很入味，咖哩軟殼蟹配麵包小孩最愛"],"dish":"佛跳牆","m":["犒賞自己","想吃飯"],"pr":"gt400","est":770},{"id":"ChIJ33UxM4eoQjQRNyrQMyFa3SY","n":"H&D 客家小館","c":"台菜","r":4.1,"k":1466,"la":25.054682,"lo":121.451201,"z":"walk12","d":362,"h":[[],[[690,860],[1050,1280]],[[690,860],[1050,1280]],[[690,860],[1050,1280]],[[690,860],[1050,1280]],[[690,860],[1050,1280]],[[690,860],[1050,1280]]],"hk":["道地台灣客家菜，新鮮又入口即化，太讚了","點了店家招牌菜，每一道都很好吃，服務又好"],"dish":"客家菜","m":["想吃飯","重口味","犒賞自己"],"pr":"200-400","est":300},{"id":"ChIJDQlEOwCpQjQRvM4KwKYedyE","n":"日日麗早午餐","c":"早午餐","r":4.5,"k":125,"la":25.054204,"lo":121.453021,"z":"walk12","d":541,"h":[[[390,840]],[[390,840]],[[390,840]],[[390,840]],[[390,840]],[[420,870]],[[420,870]]],"hk":["鮪魚蛋餅外皮微酥超好吃，雞腿嫩又多汁","蜂蜜美式和拿鐵濃郁好喝，住附近會天天買"],"dish":"鮪魚蛋餅","m":["快速解決","一個人也自在"],"pr":"lt200","est":150},{"id":"ChIJ6xov-yKpQjQRcFu-aHWpUc0","n":"白日 A.M BRUNCH","c":"早午餐","r":4.7,"k":41,"la":25.053502,"lo":121.451276,"z":"walk12","d":374,"h":[[[420,840]],[],[[420,840]],[[420,840]],[[420,840]],[[420,870]],[[420,870]]],"hk":["鐵板麵超級好吃，鮮奶茶也好喝到不行！","新開的早餐店，乾淨明亮，古早味肉燥麵好吃"],"dish":"鐵板麵","m":["快速解決","想吃麵","一個人也自在"],"pr":"lt200","est":180},{"id":"ChIJcyRcTR6pQjQR9BHWreW2mcQ","n":"嵐軒早午餐","c":"早午餐","r":4.1,"k":174,"la":25.053113,"lo":121.447781,"z":"near","d":124,"h":[[[330,870]],[[330,870]],[[330,870]],[[330,870]],[[330,870]],[[330,870]],[[330,870]]],"hk":["秘製豬排蛋餅很好吃，錫蘭紅茶也很不錯","有冷氣、出餐又快，環境乾淨，氣氛也很不錯"],"dish":"豬排蛋餅","m":["快速解決","一個人也自在"],"pr":"lt200","est":120},{"id":"ChIJvaD1IXGpQjQRceYdeicV2fU","n":"陳記大鼎香菇米粉湯","c":"小吃","r":4.4,"k":235,"la":25.054465,"lo":121.450907,"z":"near","d":329,"h":[[[900,1440]],[[900,1440]],[[900,1440]],[[900,1440]],[[900,1440]],[[900,1440]],[]],"hk":["香菇肉粥湯頭濃郁開胃，份量超大，小菜都很讚","新莊在地特色，米粉湯可免費續，小菜樣樣好吃"],"dish":"香菇米粉湯","m":["療癒暖胃","想喝湯","快速解決"],"pr":"lt200","est":100},{"id":"ChIJ6WbK-H6oQjQRzJVxXvi_1ZA","n":"勁好吃芋仔米粉湯","c":"小吃","r":4.7,"k":53,"la":25.050645,"lo":121.448895,"z":"walk12","d":417,"h":[[],[],[[360,720]],[],[[360,720]],[[360,720]],[[360,720]]],"hk":["芋頭大塊鬆軟又香，湯頭帶甘蔗的自然甜味","皇帝肉甜嫩超好吃，老闆還一直幫我加湯加芋頭"],"dish":"芋頭米粉湯","m":["療癒暖胃","想喝湯","快速解決"],"pr":"lt200","est":90},{"id":"ChIJn_dL4D-pQjQRL6MotVIMZF0","n":"凍滋丼滋","c":"丼飯","r":4.8,"k":84,"la":25.050774,"lo":121.450675,"z":"walk12","d":489,"h":[[[660,1260]],[],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]]],"hk":["蚵仔滷肉飯超過15顆蚵仔，每顆都肥美好吃","滷肉飯大碗的滷汁香濃又多，足夠拌完整碗飯"],"dish":"蚵仔滷肉飯","m":["想吃飯","快速解決","一個人也自在"],"pr":"lt200","est":130},{"id":"ChIJQbmDiICoQjQRXp4XD1BTWkU","n":"帝王生魚片 新莊分店","c":"日式","r":4.7,"k":1274,"la":25.054235,"lo":121.448759,"z":"near","d":112,"h":[[],[[1080,1500]],[[1080,1500]],[[1080,1500]],[[1080,1500]],[[1080,1500]],[[1080,1500]]],"hk":["拔絲地瓜超好吃，配冰水讓糖衣更脆不黏","點的菜都很好吃很驚豔，出菜超快，口味偏重很下飯"],"dish":"生魚片","m":["犒賞自己","重口味","想吃飯"],"pr":"gt400","est":500},{"id":"ChIJzSmJikepQjQRzpoDakfEYjM","n":"BELLINI Pasta Pasta","c":"義式","r":4.7,"k":433,"la":25.059678,"lo":121.449573,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["點了鮭魚超級讚！餐點很棒，上菜速度又快","來過好幾次，餐點每次都很到位、服務很貼心"],"dish":"鮭魚","m":["異國風","想吃麵","犒賞自己"],"pr":"gt400","est":450},{"id":"ChIJH7kCZZypQjQR-cu7twHpJ18","n":"豆腐村 宏匯店","c":"韓式","r":4.1,"k":1279,"la":25.059523,"lo":121.449841,"z":"mall","d":630,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["自製豆腐真的很好吃，最後的冰淇淋超愛","泡菜鍋配吃到飽泡菜，薯條的芥末美乃滋超讚"],"dish":"嫩豆腐鍋","m":["異國風","療癒暖胃","想喝湯"],"pr":"200-400","est":350},{"id":"ChIJWTLF0PmpQjQRo4IjbaTl-j8","n":"忠青商行 新莊宏匯店","c":"台式","r":4.2,"k":1782,"la":25.059664,"lo":121.449556,"z":"mall","d":635,"h":[[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1290]],[[660,1290]],[[660,1260]]],"hk":["品質很好的在地台式料理，價格也很實在"],"dish":"","m":["想吃飯","一個人也自在"],"pr":"200-400","est":280},{"id":"ChIJS5ODKQCpQjQRaJ9fX2dmg4s","n":"Le Shrimp Ramen 宏匯店","c":"拉麵","r":4.8,"k":1233,"la":25.059843,"lo":121.449261,"z":"mall","d":646,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["鮮蝦湯頭濃郁好喝，讓我想起奶奶煮的味道","鮮蝦拉麵很好吃，蝦湯的味道超級濃郁！"],"dish":"鮮蝦拉麵","m":["想吃麵","想喝湯","重口味"],"pr":"200-400","est":330},{"id":"ChIJzfkgIgCpQjQRCiZ8qF1zgVw","n":"樂天皇朝 新莊宏匯店","c":"中式","r":4.6,"k":1590,"la":25.059842,"lo":121.449279,"z":"mall","d":647,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["蘿蔔絲酥餅滿分，川味小籠包配薑醋酸辣過癮","紅油抄手拉麵酸香鹹香，抄手多汁，麵條口感超好"],"dish":"小籠包","m":["犒賞自己","想吃麵","重口味"],"pr":"gt400","est":450},{"id":"ChIJ8RI9voOpQjQRoGCzwlJDCSM","n":"大師兄銷魂麵舖 宏匯店","c":"麵食","r":4.3,"k":1465,"la":25.059705,"lo":121.449573,"z":"mall","d":640,"h":[[[660,1230]],[[660,1230]],[[660,1230]],[[660,1230]],[[660,1260]],[[660,1260]],[[660,1230]]],"dish":"銷魂麵","m":["想吃麵","重口味","快速解決"],"hk":["我們點了不辣版本的麵，餐點非常美味！"],"est":200,"pr":"200-400"},{"id":"ChIJjd1jzeWpQjQRHf1RyGMMOwM","n":"Chu Yu Teppanyaki 宏匯店","c":"鐵板","r":4.1,"k":619,"la":25.059678,"lo":121.449573,"z":"mall","d":637,"h":[[[720,840],[1050,1290]],[[720,840],[1050,1290]],[[720,840],[1050,1290]],[[720,840],[1050,1290]],[[720,840],[1050,1290]],[[720,840],[1050,1290]],[[720,840],[1050,1290]]],"dish":"","m":["犒賞自己","異國風"],"hk":["共11道菜，食材的品質與主廚的手藝都顯而易見","一套約15到18道料理，幾乎每一道都讓人喜歡"],"est":1860,"pr":"gt400"},{"id":"ChIJT7kBzm0faDQRzVN-QUsCabU","n":"美威鮭魚 宏匯店","c":"丼飯","r":4.3,"k":516,"la":25.059753,"lo":121.449286,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"炙燒鮭魚丼","m":["想吃飯","清爽健康"],"hk":["炙燒鮭魚鮪魚丼套餐很好吃，鮭魚和鮪魚都非常新鮮"],"est":380,"pr":"200-400"},{"id":"ChIJieYUaQCpQjQR2uSFIHy2igM","n":"開丼 燒肉VS丼飯 新莊宏匯店","c":"丼飯","r":4.6,"k":930,"la":25.059753,"lo":121.449286,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":[],"dish":"燒肉丼","m":["想吃飯","犒賞自己","一個人也自在"],"pr":"200-400","est":280},{"id":"ChIJfdo8a4epQjQRKxza0sGC28Y","n":"撈王鍋物料理 宏匯店","c":"火鍋","r":4.5,"k":765,"la":25.059639,"lo":121.449481,"z":"mall","d":631,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"胡椒豬肚雞","m":["療癒暖胃","想喝湯","犒賞自己"],"hk":["經典胡椒豬肚雞鍋湯頭濃郁有味，而且不會辣","煲仔飯不只是噱頭而已，你真的一定要點！"],"est":750,"pr":"gt400"},{"id":"ChIJN4ED_RupQjQRmfGfrkbsPtc","n":"海底撈 宏匯店","c":"火鍋","r":4.9,"k":11890,"la":25.059678,"lo":121.449573,"z":"mall","d":637,"h":[[[660,1620]],[[660,1620]],[[660,1620]],[[660,1620]],[[720,1620]],[[660,1620]],[[660,1620]]],"dish":"麻辣鍋","m":["重口味","宵夜感","犒賞自己"],"hk":["肉品品質也很好，特別推薦澳洲牛肉，非常好吃","麻辣湯底水準穩定，肉和魚都超新鮮，吃得出品質"],"est":600,"pr":"gt400"},{"id":"ChIJeT-lfzqpQjQR4sKwLJtUhqg","n":"MO-MO-PARADISE 新莊宏匯店","c":"火鍋","r":4.3,"k":1373,"la":25.059931,"lo":121.449787,"z":"mall","d":671,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["服務好、東西好吃，店員親切，一定會再來！"],"dish":"壽喜燒","m":["吃到飽滿足","犒賞自己","想喝湯"],"pr":"gt400","est":700},{"id":"ChIJy5XWKAKpQjQRBkUpKw5COFA","n":"丸亀製麵 宏匯新莊店","c":"麵食","r":4.3,"k":397,"la":25.059664,"lo":121.449556,"z":"mall","d":635,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["明太子烏龍麵超好吃，炸雞和竹輪也不錯","烏龍麵Q彈有勁，吸飽番茄肉醬，層次豐富"],"dish":"明太子烏龍麵","m":["想吃麵","快速解決","一個人也自在"],"pr":"200-400","est":200},{"id":"ChIJ1UmubXapQjQRwujpkRz15M8","n":"開飯川食堂 宏匯店","c":"中式","r":4.2,"k":1436,"la":25.0596,"lo":121.449583,"z":"mall","d":630,"h":[[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[660,960],[1020,1290]],[[660,960],[1020,1290]]],"dish":"宮保雞丁","m":["重口味","想吃飯"],"hk":["宮保雞丁和糖醋雞都很好吃，份量以價格來說很實在","很喜歡他們隨餐附上的醋，是很棒的解膩小物"],"est":400,"pr":"200-400"},{"id":"ChIJBTkTHACpQjQRTALieO0JLtY","n":"八色烤肉mini 宏匯店","c":"韓式","r":4.1,"k":867,"la":25.05974,"lo":121.449234,"z":"mall","d":635,"h":[[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1290]],[[660,1290]],[[660,1260]]],"dish":"八色烤肉","m":["重口味","犒賞自己","異國風"],"hk":[],"est":550,"pr":"gt400"},{"id":"ChIJ-SBVUQCpQjQR9gN7KP3QALo","n":"Potato Corner 新莊宏匯店","c":"速食","r":4.9,"k":329,"la":25.059608,"lo":121.449755,"z":"mall","d":636,"h":[[[660,1320]],[[660,1320]],[[660,1320]],[[660,1320]],[[660,1290]],[[660,1290]],[[660,1320]]],"hk":["現炸薯條上菜快又新鮮，起司和辣味BBQ超好吃"],"dish":"調味薯條","m":["快速解決","重口味","一個人也自在"],"pr":"lt200","est":120},{"id":"ChIJdY145SqpQjQRwTIuc3kVvOk","n":"繼光香香雞 宏匯店","c":"炸物","r":4.6,"k":639,"la":25.059606,"lo":121.449361,"z":"mall","d":624,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"香香雞","m":["快速解決","重口味","一個人也自在"],"hk":["雞排真的很好吃，厚實有口感，每次經過都忍不住點","這裡的雞肉很好吃又多汁，而且不會油膩"],"est":110,"pr":"lt200"},{"id":"ChIJI50qeoCoQjQRV77jPhO-Eug","n":"牛牛牛肉麵","c":"麵食","r":4.2,"k":776,"la":25.05407,"lo":121.447933,"z":"near","d":33,"h":[[],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[]],"hk":["麵條很彈牙，大碗只貴10元份量卻差超多"],"dish":"牛肉麵","m":["想吃麵","快速解決","想喝湯"],"pr":"lt200","est":160},{"id":"ChIJlc_oAZepQjQRzY6g79LKxH8","n":"食在幸福 邱記","c":"麵食","r":4.6,"k":588,"la":25.049868,"lo":121.446776,"z":"gym","d":492,"h":[[[660,840],[960,1260]],[[660,840],[960,1260]],[[660,840],[960,1260]],[[660,840],[960,1260]],[[660,840],[960,1260]],[[660,840],[960,1260]],[[660,840],[960,1260]]],"hk":["海鮮粥滿滿蛤蜊鮮蝦的鮮甜，料多又實在","麻醬涼麵口味清爽又好吃，座位不多很適合外帶"],"dish":"海鮮粥","m":["療癒暖胃","想喝湯","快速解決"],"pr":"lt200","est":130},{"id":"ChIJEd8cejOpQjQRY-w6wEWOyRA","n":"熊越岳","c":"拉麵","r":4.6,"k":3274,"la":25.049235,"lo":121.447809,"z":"gym","d":554,"h":[[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]]],"dish":"醬油叉燒拉麵","m":["想吃麵","療癒暖胃","一個人也自在"],"hk":["叉燒油花均勻、軟嫩入口即化，醬油湯頭濃郁卻不過鹹","湯頭風味完美，叉燒的口感和份量都遠超預期"],"est":330,"pr":"200-400"},{"id":"ChIJ2ajjUdWnQjQR7YjScUJxP60","n":"偵軒日式小火鍋 中平店","c":"火鍋","r":4.4,"k":892,"la":25.053984,"lo":121.444728,"z":"near","d":295,"h":[[[690,900],[1020,1350]],[],[[690,900],[1020,1350]],[[690,900],[1020,1350]],[[690,900],[1020,1350]],[[690,1350]],[[690,1350]]],"hk":["梅花豬肉片厚切超滿足，海鱸魚煮不散又鮮嫩","柴魚雞湯頭好喝又不會口渴，帶出蔬菜的鮮甜"],"dish":"海鱸魚","m":["療癒暖胃","想喝湯","一個人也自在"],"pr":"200-400","est":400},{"id":"ChIJpXxT1OmnQjQRHbdnCvaFr6g","n":"沐樂享鍋 新莊中原店","c":"火鍋","r":4.9,"k":2827,"la":25.05424,"lo":121.445295,"z":"near","d":237,"h":[[[690,900],[1020,1320]],[[690,900],[1020,1320]],[[690,900],[1020,1320]],[],[[690,900],[1020,1320]],[[690,1320]],[[690,1320]]],"hk":["擺盤和氛圍讓人感覺像高檔餐廳，細節很用心","火鍋很棒，店員很親切、服務好，東西也好吃"],"dish":"","m":["療癒暖胃","想喝湯","犒賞自己"],"pr":"200-400","est":400},{"id":"ChIJ0dQa5DunQjQRNG0hERRHDGI","n":"厚舖涮涮鍋 Encore安可","c":"火鍋","r":4.9,"k":483,"la":25.051612,"lo":121.445301,"z":"walk12","d":374,"h":[[[1050,1260]],[[1050,1260]],[[1050,1260]],[[1050,1260]],[[1050,1320]],[[690,900],[1050,1320]],[[690,900],[1050,1320]]],"hk":["火鍋超好吃，必吃！氣氛也很棒，適合跟朋友聚餐","餐點好吃、氣氛很棒，很適合和朋友邊吃邊敘舊"],"dish":"涮涮鍋","m":["療癒暖胃","想喝湯","犒賞自己"],"pr":"gt400","est":600},{"id":"ChIJIxxM8fmpQjQRjGJF0zn0jJo","n":"BO BO 泰式 宏匯店","c":"泰式","r":4.5,"k":3757,"la":25.059587,"lo":121.449542,"z":"mall","d":627,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":["冠軍泰式炒河粉、牛肉沙嗲和青木瓜沙拉都好吃","東西好吃、服務好，現代風用餐空間很舒適"],"dish":"泰式炒河粉","m":["異國風","重口味","想吃麵"],"pr":"gt400","est":450},{"id":"ChIJGa_OZ2-pQjQREMF6zFEY5Ts","n":"Pepper Lunch 胡椒廚房","c":"鐵板","r":4.6,"k":652,"la":25.059753,"lo":121.449286,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"hk":[],"dish":"胡椒牛肉飯","m":["想吃飯","快速解決","一個人也自在"],"pr":"200-400","est":260},{"id":"ChIJW-2LgHCpQjQRYvkbFpvHI1U","n":"Lazy Pasta 慵懶義式廚房","c":"義式","r":4.5,"k":1652,"la":25.05025,"lo":121.447686,"z":"gym","d":441,"h":[[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]]],"hk":["家附近的口袋愛店，泰式醬義大利麵超好吃","義大利麵真的很好吃，店內環境漂亮又乾淨"],"dish":"泰式義大利麵","m":["異國風","想吃麵","犒賞自己"],"pr":"200-400","est":380},{"id":"ChIJuaDx5uKpQjQR-DL9q4wzyuk","n":"饗味鹽酥雞 中信店","c":"鹽酥雞","r":4.3,"k":1115,"la":25.050793,"lo":121.45181,"z":"walk12","d":566,"h":[[[1020,1440]],[[1020,1440]],[[1020,1440]],[[1020,1440]],[[1020,1440]],[[1020,1440]],[[1020,1440]]],"hk":[],"dish":"鹽酥雞","m":["重口味","宵夜感","快速解決"],"pr":"lt200","est":150},{"id":"ChIJixiYSwCpQjQRedtfocEQf5s","n":"全仔刀削麵","c":"麵食","r":4.2,"k":259,"la":25.050847,"lo":121.448146,"z":"gym","d":378,"h":[[],[[660,840],[990,1230]],[[660,840],[990,1230]],[[660,840],[990,1230]],[[660,840],[990,1230]],[[660,870],[990,1230]],[[660,840],[990,1230]]],"hk":["手工刀削麵Q彈厚實，湯頭清甜不油，超滿足","牛肉餡餅絕對必點，咬下去多汁又超有味道"],"dish":"番茄牛肉刀削麵","m":["想吃麵","療癒暖胃","想喝湯"],"pr":"200-400","est":220},{"id":"ChIJZYQ2J--pQjQRT9CEAEC4Y3s","n":"泰之初 中信店","c":"泰式","r":4.5,"k":478,"la":25.05075,"lo":121.451052,"z":"walk12","d":516,"h":[[[600,900],[1020,1230]],[[600,900],[1020,1230]],[[600,900],[1020,1230]],[[600,900],[1020,1230]],[[600,900],[1020,1230]],[[600,900],[1020,1230]],[[600,900],[1020,1230]]],"hk":["泰式奶茶很好喝，檸檬魚趁熱吃超級美味！","打拋豬很好吃，椰子汁也非常清爽，值得一試"],"dish":"檸檬魚","m":["異國風","重口味","想吃飯"],"pr":"200-400","est":280},{"id":"ChIJZabLTH6oQjQRgo-3QYw8fTQ","n":"好富早午餐","c":"早午餐","r":4.1,"k":1023,"la":25.051959,"lo":121.448542,"z":"near","d":267,"h":[[[480,960]],[[480,960]],[[480,960]],[[480,960]],[[480,960]],[[480,960]],[[480,960]]],"hk":["餐點好吃又健康，選擇很多，出餐快又親切","很棒的早午餐，餐點好吃、價格也很合理"],"dish":"","m":["快速解決","清爽健康","一個人也自在"],"pr":"200-400","est":200},{"id":"ChIJi0QEogWpQjQRodo1UEQFXpE","n":"Woosa 屋莎洋食鬆餅屋","c":"洋食","r":4.4,"k":1748,"la":25.059761,"lo":121.449524,"z":"mall","d":645,"h":[[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]]],"hk":["鬆餅很讚！咖哩飯配炸雞好吃又不油膩，份量夠","只要加279元就能升級鬆餅加飲料，非常划算"],"dish":"鬆餅","m":["犒賞自己","異國風","想吃飯"],"pr":"gt400","est":450},{"id":"ChIJcQ4JyXCnQjQRr4-2nzGAzmk","n":"一甲子私房小廚","c":"中式","r":4.6,"k":250,"la":25.051067,"lo":121.446463,"z":"gym","d":370,"h":[[[960,1350]],[[960,1350]],[[960,1350]],[[960,1380]],[[960,1350]],[],[[960,1350]]],"hk":["老闆曾是晶華主廚，紅燒獅子頭超好吃！","看似普通的便當，肉汁淋在飯上，好吃到停不下來"],"dish":"紅燒獅子頭","m":["想吃飯","療癒暖胃","宵夜感","一個人也自在"],"pr":"lt200","est":180},{"id":"ChIJddP4Dn-oQjQRhY5wFL-bV54","n":"新港鴨肉羹","c":"小吃","r":4.5,"k":297,"la":25.050677,"lo":121.447559,"z":"gym","d":394,"h":[[[690,870],[990,1200]],[[690,870],[990,1200]],[[690,870],[990,1200]],[[690,870],[990,1200]],[[690,870],[990,1200]],[],[]],"hk":["很像嘉義新港鴨肉羹，鴨肉給超多，CP值高","燙青菜淋上店家蔥油超香，空心菜又嫩又脆"],"dish":"鴨肉羹","m":["想喝湯","快速解決","想吃飯"],"pr":"lt200","est":120},{"id":"ChIJB0WOEhupQjQRD8e8ARs6c1Q","n":"新醬麵食館","c":"麵食","r":4.2,"k":240,"la":25.054182,"lo":121.45016,"z":"near","d":253,"h":[[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[]],"hk":["麵條Q彈超吸醬汁，炸醬麵和花椒麵都好吃","牛肉軟嫩、湯頭很讚，店內乾淨舒適，必吃！"],"dish":"炸醬麵","m":["想吃麵","快速解決","一個人也自在"],"pr":"lt200","est":160},{"id":"ChIJYecQMdCpQjQR5DE8xeZ3CVc","n":"麵屋倫太郎","c":"麵食","r":4.7,"k":679,"la":25.051827,"lo":121.451541,"z":"walk12","d":474,"h":[[],[[720,810],[1050,1320]],[[720,810],[1050,1320]],[[720,810],[1050,1320]],[[720,810],[1050,1320]],[[720,810],[1050,1320]],[[720,810],[1050,1320]]],"hk":["味噌雞白湯和干貝雞清湯都很獨特又好喝","芥末沾醬馬鈴薯蝦球外酥內軟，蝦肉超彈"],"dish":"雞白湯拉麵","m":["想吃麵","想喝湯","一個人也自在"],"pr":"200-400","est":280},{"id":"ChIJQz-M0H-oQjQRUAWjn5sAT10","n":"頂好香滷味","c":"滷味","r":4.8,"k":40,"la":25.052987,"lo":121.447793,"z":"near","d":138,"h":[[[960,1320]],[[960,1320]],[[960,1320]],[[960,1320]],[[960,1320]],[],[]],"hk":["麵超入味，香而不鹹，回味無窮，太愛了","豬耳朵超Q超愛，冬粉很入味，便宜又好吃！"],"dish":"滷味","m":["宵夜感","重口味","快速解決"],"pr":"lt200","est":130},{"id":"ChIJ28Uc7rupQjQRxBKTHEeNKVo","n":"滷bar 加熱滷味","c":"滷味","r":4.4,"k":48,"la":25.054479,"lo":121.45142,"z":"walk12","d":381,"h":[[[960,1350]],[[960,1350]],[[960,1350]],[[960,1350]],[[960,1350]],[[960,1350]],[[960,1350]]],"hk":["湯頭帶微甜的蒜香，豆皮吸飽湯汁超級軟嫩","份量超大吃很飽！麻辣、蒜味兩種都超好吃"],"dish":"加熱滷味","m":["宵夜感","重口味","療癒暖胃"],"pr":"200-400","est":250},{"id":"ChIJM7sWEwCpQjQRf-mFBqKr73Q","n":"家豪清燉牛肉麵","c":"麵食","r":4.2,"k":111,"la":25.054437,"lo":121.450323,"z":"near","d":271,"h":[[],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]]],"hk":["清燉湯頭清甜好喝，喝過一次就念念不忘","湯頭濃郁、麵條口感剛好，牛肉軟嫩入味"],"dish":"清燉牛肉麵","m":["想吃麵","想喝湯","療癒暖胃"],"pr":"lt200","est":180},{"id":"ChIJZ2qBLIapQjQRKO7uesCdAsw","n":"花琢日式料理","c":"日式","r":4.7,"k":3079,"la":25.050245,"lo":121.447694,"z":"gym","d":442,"h":[[[690,840],[1050,1290]],[[690,840],[1050,1290]],[[690,840],[1050,1290]],[[690,840],[1050,1290]],[[690,840],[1050,1290]],[[690,840],[1050,1290]],[[690,840],[1050,1290]]],"hk":["食材新鮮、CP值超高，師傅很注重細節","壽司套餐新鮮又好吃，食材新鮮CP值高"],"dish":"壽司套餐","m":["犒賞自己","異國風","清爽健康"],"pr":"gt400","est":550},{"id":"ChIJQ9j8l8apQjQR0WHHWVIgEDA","n":"Siam More 宏匯店","c":"泰式","r":4.4,"k":1896,"la":25.059319,"lo":121.44968,"z":"mall","d":603,"h":[[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[690,900],[1050,1290]],[[660,960],[1020,1290]],[[660,960],[1020,1290]]],"dish":"","m":["異國風","重口味","犒賞自己"],"hk":["每道菜都各有誘人風味，道地程度也夠吸引台灣人","餐點好吃，空間寬敞，很適合和朋友聚餐"],"est":400,"pr":"200-400"},{"id":"ChIJx-tOdACpQjQR7eZIfI0vbIo","n":"印度皇宮 宏匯店","c":"印度","r":4.1,"k":57,"la":25.059678,"lo":121.449573,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"千層烤餅","m":["異國風","重口味","想吃飯"],"hk":["手工烤餅、千層烤餅，套餐還附印度飯，由印度主廚掌廚"],"est":400,"pr":"200-400"},{"id":"ChIJ1a1sHwCpQjQRPkgjYoETwwQ","n":"TGI FRIDAYS 宏匯店","c":"美式","r":4.8,"k":1424,"la":25.059549,"lo":121.449438,"z":"mall","d":620,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"炸魚塔可","m":["異國風","犒賞自己","重口味"],"hk":["每一道菜都很美味，炸魚塔可絕對是必點"],"est":600,"pr":"gt400"},{"id":"ChIJUWmcHwCpQjQRT6AGXEAuWh8","n":"Doricious 宏匯店","c":"洋食","r":4.5,"k":2088,"la":25.059664,"lo":121.449349,"z":"mall","d":629,"h":[[[690,960],[1050,1290]],[[690,960],[1050,1290]],[[690,960],[1050,1290]],[[690,960],[1050,1290]],[[690,810],[840,960],[1020,1140],[1170,1290]],[[690,810],[840,960],[1020,1140],[1170,1290]],[[690,810],[840,960],[1020,1140],[1170,1290]]],"dish":"牛排","m":["犒賞自己","異國風"],"hk":["在台灣喝過最好喝的蘑菇濃湯，牛排也很軟嫩"],"est":800,"pr":"gt400"},{"id":"ChIJ42GHTUmpQjQRHzG9cWzm7do","n":"藏壽司 宏匯店","c":"日式","r":4.1,"k":2396,"la":25.059766,"lo":121.44953,"z":"mall","d":645,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"迴轉壽司","m":["異國風","一個人也自在","快速解決"],"hk":["想吃美味新鮮的壽司，這裡永遠是我的首選","投入5個盤子後就有抽獎，小朋友也會覺得很好玩"],"est":350,"pr":"200-400"},{"id":"ChIJlx-KE9OpQjQRqU4yP0FtvKI","n":"PRESERVE 宏匯店","c":"早午餐","r":4.7,"k":1201,"la":25.059678,"lo":121.449573,"z":"mall","d":637,"h":[[[660,1290]],[[660,1290]],[[660,1290]],[[660,1290]],[[660,1320]],[[660,1320]],[[660,1290]]],"dish":"土耳其蛋","m":["清爽健康","異國風","一個人也自在"],"hk":["全天供應的蔬食早午餐，大推土耳其蛋和海鹽拿鐵","現代風蔬食餐廳，有美味酪梨果昔、優質咖啡和新烤貝果"],"est":450,"pr":"gt400"},{"id":"ChIJRWDqQvipQjQRbvoa16C0N_o","n":"7700均食餐盒","c":"健康餐","r":4.5,"k":322,"la":25.056843,"lo":121.450461,"z":"walk12","d":407,"h":[[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[]],"hk":["鮭魚無刺、雞腿微辣，都好好吃，吃超飽","新莊數一數二的健康餐，每款都很有味道"],"dish":"鮭魚餐盒","m":["清爽健康","快速解決","一個人也自在"],"pr":"lt200","est":130},{"id":"ChIJbd919QmpQjQR-JeDp4fHELo","n":"好食肌 G&T GoodTime","c":"健康餐","r":4.6,"k":230,"la":25.050688,"lo":121.447503,"z":"gym","d":393,"h":[[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[[690,840],[1020,1170]],[]],"hk":["難以想像150元配餐還能吃到香滷牛腱！","鮭魚便當煎得酥脆好吃，食量小的人很適合"],"dish":"香滷牛腱餐","m":["清爽健康","快速解決","一個人也自在"],"pr":"lt200","est":150},{"id":"ChIJmyLxt4CoQjQRYmcWlfWlZvI","n":"新蘭記麵食","c":"麵食","r":4.1,"k":435,"la":25.054398,"lo":121.450644,"z":"near","d":302,"h":[[[660,1260]],[[660,1260]],[],[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]]],"hk":["皮蛋麵充滿麻醬、花生和皮蛋香，超好吃","紅油抄手做得很好，小菜也很不錯，湯也好喝"],"dish":"皮蛋麵","m":["想吃麵","重口味"],"pr":"200-400","est":260},{"id":"ChIJG7xxLACpQjQRpq77F4075nk","n":"馬柔","c":"義式","r":4.4,"k":275,"la":25.055613,"lo":121.446623,"z":"near","d":186,"h":[[[630,1260]],[],[[630,1260]],[[630,1260]],[[630,1260]],[[630,1260]],[[630,1260]]],"hk":["炸生蠔海膽醬義大利麵好吃，最特別的一盤","挑高空間明亮有型，特調氣泡飲超清爽"],"dish":"炸生蠔海膽麵","m":["犒賞自己","異國風","想吃麵"],"pr":"gt400","est":450},{"id":"ChIJG8rOsoCoQjQRSvGx8AsSM9I","n":"8兩重G排","c":"炸物","r":4.1,"k":63,"la":25.05367,"lo":121.451413,"z":"walk12","d":384,"h":[[],[],[[960,1380]],[[960,1380]],[[960,1380]],[],[]],"hk":["雞排超大塊，蔥蒜給得超多，CP值超高","下課總想買他們的炸雞，真的超好吃，CP值高！"],"dish":"雞排","m":["重口味","宵夜感","快速解決"],"pr":"lt200","est":130},{"id":"ChIJpxBpqn-oQjQRZYjXUBQ4Odw","n":"七里香鹽酥雞","c":"鹽酥雞","r":4.1,"k":320,"la":25.050933,"lo":121.448907,"z":"walk12","d":387,"h":[[[990,1500]],[],[[990,1500]],[[990,1500]],[[990,1500]],[[990,1500]],[[990,1500]]],"hk":["雞心多汁，魷魚放了半小時還是很酥脆！","很喜歡他們家的五香粉，招牌雞排也很好吃"],"dish":"鹽酥雞","m":["重口味","宵夜感","快速解決"],"pr":"lt200","est":150},{"id":"ChIJj8_uAYGnQjQRNUds9aEROMY","n":"築間幸福鍋物 新莊中悅廣場店","c":"火鍋","r":4.6,"k":2015,"la":25.054598,"lo":121.444854,"z":"near","d":285,"h":[[[660,1440]],[[660,1440]],[[660,1440]],[[660,1440]],[[660,1440]],[[660,1440]],[[660,1440]]],"hk":["配料、冰淇淋和飲料無限供應，超加分！","湯底選擇很多，每一種都很好喝，食材也新鮮"],"dish":"","m":["吃到飽滿足","療癒暖胃","想喝湯"],"pr":"200-400","est":400},{"id":"ChIJWx4XuHuoQjQR_WcAd5iBKpI","n":"Gino Pizza Napoletana","c":"披薩","r":4.3,"k":1800,"la":25.054567,"lo":121.449501,"z":"near","d":191,"h":[[[690,870],[1020,1260]],[],[[690,870],[1020,1260]],[[690,870],[1020,1260]],[[690,870],[1020,1260]],[[690,1260]],[[690,1260]]],"hk":["無花果披薩就像柔軟的雲朵在嘴裡爆開來","餅皮發酵得很好很香，提拉米蘇也超讚，會常來"],"dish":"拿坡里披薩","m":["異國風","犒賞自己"],"pr":"gt400","est":450},{"id":"ChIJMc3LVX6oQjQRoLisuluZbSE","n":"越南西貢美食小吃","c":"越式","r":4.3,"k":235,"la":25.052062,"lo":121.452485,"z":"walk12","d":543,"h":[[[660,1230]],[[660,1230]],[[660,1230]],[[660,1230]],[[660,1230]],[[660,1230]],[[660,1230]]],"hk":["法國麵包酥脆香，牛肉炒飯粒粒分明很香","牛肉河粉超好吃，是我最常買的一道，店內也很乾淨"],"dish":"牛肉河粉","m":["異國風","想吃麵","快速解決"],"pr":"lt200","est":150},{"id":"ChIJ9xac5aepQjQRAjStk9MQF68","n":"杜小越 越南料理","c":"越式","r":4.6,"k":219,"la":25.05266,"lo":121.449918,"z":"near","d":287,"h":[[],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,1200]],[[660,1200]]],"hk":["湯頭喝得出是真的小火慢熬，很有越南風味","牛肉河粉湯頭濃、牛肉多，炸春捲酥脆不油"],"dish":"牛肉河粉","m":["異國風","想喝湯","想吃麵"],"pr":"200-400","est":230},{"id":"ChIJqQVZfTKpQjQRTy07Y5ZaLds","n":"72度C 舒肥健康餐","c":"健康餐","r":4.3,"k":196,"la":25.051052,"lo":121.44613,"z":"walk12","d":384,"h":[[],[[630,810],[930,1170]],[[630,810],[930,1170]],[[630,810],[930,1170]],[[630,810],[930,1140]],[[630,1140]],[]],"hk":["舒肥雞胸超嫩，櫻桃鴨也比想像中好吃很多","溫泉蛋千萬別錯過，蛋黃香到不行，份量也很足"],"dish":"舒肥雞胸","m":["清爽健康","快速解決"],"pr":"lt200","est":140},{"id":"ChIJIalO2FepQjQRVUvUbEnzIUY","n":"廣泰樓小館","c":"港式","r":4.6,"k":1236,"la":25.048977,"lo":121.446032,"z":"walk12","d":605,"h":[[],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]],[[660,840],[1020,1260]]],"hk":["粵菜港點經典又豐富，菜色精緻、色香味俱全","來過很多次從不失望，好吃份量又夠，出菜快又親切"],"dish":"港式點心","m":["犒賞自己","想吃飯","異國風"],"pr":"gt400","est":450},{"id":"ChIJA4GgHMapQjQRvhDVcMXm-eY","n":"聚饗幸福鍋物","c":"火鍋","r":4.9,"k":2320,"la":25.050528,"lo":121.452025,"z":"walk12","d":602,"h":[[[705,870],[1020,1335]],[[705,870],[1020,1335]],[[705,870],[1020,1335]],[[705,870],[1020,1335]],[[705,870],[1020,1335]],[[705,1335]],[[705,1335]]],"hk":["板腱軟嫩多汁超涮嘴，那口感讓人念念不忘","食材新鮮又美味，份量足、每樣都讓人滿意"],"dish":"板腱牛","m":["療癒暖胃","想喝湯","犒賞自己"],"pr":"gt400","est":450},{"id":"ChIJ87MnM3apQjQR78nG-f3tOzk","n":"豐衣足食 中港店","c":"小吃","r":4.2,"k":390,"la":25.050527,"lo":121.452015,"z":"walk12","d":602,"h":[[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]],[[660,840],[1020,1230]]],"hk":["紅油抄手自己拌，內餡飽滿，不油不辣但超香","炸銀絲卷很好吃，皮蛋麵Q彈有嚼勁，茶也不錯"],"dish":"排骨炒飯","m":["想吃飯","想吃麵","重口味"],"pr":"lt200","est":150},{"id":"ChIJ9RAuE_epQjQRGR8HIzIeoo4","n":"朝晨商號 新莊分號","c":"早午餐","r":4.6,"k":295,"la":25.054236,"lo":121.453712,"z":"walk12","d":611,"h":[[],[[420,840]],[[420,840]],[[420,840]],[[420,1560]],[[480,840]],[[480,840]]],"hk":["辣味豬肉蛋三明治烤得酥脆，豬肉鹹香多汁","三明治好好吃、份量大，薯條也給超大份！"],"dish":"招牌三明治","m":["快速解決","一個人也自在"],"pr":"lt200","est":150},{"id":"ChIJoY29J6KpQjQRax_-uQVlW-8","n":"喜歡咖哩 炸物本舖","c":"咖哩","r":4.7,"k":1702,"la":25.054287,"lo":121.454193,"z":"walk12","d":659,"h":[[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]],[[690,840],[1020,1230]]],"hk":["在台北吃過最好吃的咖哩，套餐附四種蔬菜都好吃","咖哩超好吃，還可以加飯、加咖哩醬，好想再訪"],"dish":"咖哩飯","m":["想吃飯","異國風","療癒暖胃"],"pr":"200-400","est":260},{"id":"ChIJ6Rbach2pQjQRU5Rt5PPTXU4","n":"福F Pasta","c":"義式","r":4.8,"k":387,"la":25.049002,"lo":121.450607,"h":[[],[[690,840],[1020,1260]],[[690,840],[1020,1260]],[[690,840],[1020,1260]],[[690,840],[1020,1260]],[[690,840],[1020,1260]],[[690,840],[1020,1260]]],"dish":"青醬培根麵","m":["異國風","想吃麵","快速解決"],"hk":["青醬好好吃，明太子也很棒，醬汁有乳化、很掛麵","醬汁收得剛剛好，麵包是溫的，價格超級實在"],"est":180,"z":"walk12","d":652,"pr":"lt200"},{"id":"ChIJ_UkEtX2pQjQRebadsHNjzYA","n":"與你見麵","c":"麵食","r":4.8,"k":78,"la":25.048434,"lo":121.44752,"z":"walk12","d":643,"h":[[],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]]],"hk":["鍋燒意麵湯頭濃郁鮮甜，好喝到整碗喝光！","鍋燒意麵的蝦子新鮮鮮甜，蛤蜊肥美又飽滿"],"dish":"鍋燒意麵","m":["想吃麵","想喝湯","療癒暖胃"],"pr":"lt200","est":160},{"id":"ChIJMQKOoCCpQjQRhxQ1gSzGhBo","n":"溢湘麵館","c":"麵食","r":4.5,"k":276,"la":25.048425,"lo":121.446965,"z":"walk12","d":648,"h":[[[660,840],[960,1230]],[[660,840],[960,1230]],[[660,840],[960,1230]],[[660,840],[960,1230]],[[660,840],[960,1230]],[],[[660,840],[960,1230]]],"hk":["麻辣抄手的皮和肉口感都很好，不會太酸太辣","沾醬區的辣油超好吃，會想買回家拌乾麵"],"dish":"麻辣抄手","m":["重口味","想吃麵","快速解決"],"pr":"lt200","est":170},{"id":"ChIJIQaQU3-oQjQRhi0S-GE3Q4Q","n":"沐也日式涮涮鍋","c":"火鍋","r":4.3,"k":2282,"la":25.049167,"lo":121.445905,"h":[[[660,1500]],[[660,1500]],[[660,1500]],[[660,1500]],[[660,1500]],[[660,1500]],[[660,1500]]],"dish":"涮涮鍋","m":["療癒暖胃","想喝湯","吃到飽滿足"],"hk":["一人份就吃到超飽，飲料和冰淇淋無限供應","湯頭好喝，份量很大，肉品新鮮"],"est":380,"z":"walk12","d":588,"pr":"200-400"},{"id":"ChIJ37igW5unQjQRN82RPJqtMwQ","n":"大魔大滿足鍋物 新莊店","c":"火鍋","r":4.9,"k":4262,"la":25.049444,"lo":121.444888,"h":[[[690,930],[1050,1440]],[[690,930],[1050,1440]],[[690,930],[1050,1440]],[[690,930],[1050,1440]],[[690,930],[1050,1440]],[[690,1440]],[[690,1440]]],"dish":"海鮮鍋","m":["療癒暖胃","吃到飽滿足","犒賞自己"],"hk":["份量對兩個人來說超大，食材品質真的很好"],"est":550,"z":"walk12","d":599,"pr":"gt400"},{"id":"ChIJRbnFld2pQjQRzzLFE3pU__8","n":"北海道炙燒日式拉麵","c":"拉麵","r":4.5,"k":1120,"la":25.050251,"lo":121.452068,"z":"walk12","d":627,"h":[[[660,1410]],[[660,1410]],[[660,1410]],[[660,1410]],[[660,1410]],[[660,1410]],[[660,1410]]],"hk":["東西真的很好吃，份量又大，一定會再來！"],"dish":"炙燒拉麵","m":["想吃麵","想喝湯","一個人也自在"],"pr":"200-400","est":250},{"id":"ChIJzQ5yzHioQjQRfb8-FA0LAv4","n":"𩵚魠魚羹","c":"小吃","r":4.5,"k":335,"la":25.048297,"lo":121.447509,"z":"walk12","d":658,"h":[[[600,1020]],[[600,1020]],[[600,1020]],[],[[600,1020]],[[600,1020]],[]],"hk":["土魠魚炸得超酥脆，魚肉很嫩，可單吃或泡湯","炸豆腐外皮微酥、裡面軟嫩，火候掌握得剛剛好"],"dish":"土魠魚羹麵","m":["想喝湯","快速解決","想吃麵"],"pr":"lt200","est":100},{"id":"ChIJz4L-5eipQjQRpy0WJOEMBBE","n":"柑橘 Shinn 小柑橘","c":"拉麵","r":4.4,"k":524,"la":25.049304,"lo":121.451041,"z":"walk12","d":644,"h":[[[660,1260]],[[660,1260]],[[660,1260]],[[660,1260]],[],[[660,1260]],[[660,1260]]],"hk":["第一次吃到加柑橘的拉麵，帶淡淡橘香，超好吃","柑橘拉麵很特別，類似柚子拉麵，值得一試"],"dish":"柑橘拉麵","m":["想吃麵","想喝湯","一個人也自在"],"pr":"200-400","est":280},{"id":"ChIJ2TOxiKGnQjQR0heMMDHRfiY","n":"饗禾日式咖哩食堂","c":"咖哩","r":4.6,"k":273,"la":25.050043,"lo":121.444229,"h":[[[660,840],[1020,1200]],[],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]],[[660,840],[1020,1200]]],"dish":"炸豬排咖哩","m":["想吃飯","療癒暖胃","一個人也自在"],"hk":["咖哩不會太甜，微鹹鮮香裡帶著蘋果的自然甜味","炸豬排是亮點，咖哩醬汁味道很夠"],"est":260,"z":"walk12","d":578,"pr":"200-400"},{"id":"ChIJhbpregCpQjQRwB7FlocEer8","n":"星廚饌 上新莊店","c":"麵食","r":4.5,"k":1208,"la":25.048019,"lo":121.447319,"h":[[[690,1260]],[[690,1260]],[[690,1260]],[[690,1260]],[[690,1260]],[[690,1260]],[[690,1260]]],"dish":"酸菜乾拌麵","m":["想吃麵","療癒暖胃","一個人也自在"],"hk":["麵和甜點都很好吃，服務也很棒"],"est":250,"z":"walk12","d":690,"pr":"200-400"},{"id":"ChIJ-UQWEdinQjQRqE3HgjFZ_Hg","n":"Action! 早倉","c":"早午餐","r":4.6,"k":2033,"la":25.048542,"lo":121.445351,"z":"walk12","d":672,"h":[[[480,960]],[[480,960]],[[480,960]],[[480,960]],[[480,960]],[[480,1020]],[[480,1020]]],"hk":["滷肉燥配班尼迪克蛋，很有創意又特別的台式早午餐","大杯咖啡配火腿起司蛋帕尼尼，價格合理很划算"],"dish":"肉燥班尼迪克蛋","m":["一個人也自在","犒賞自己"],"pr":"200-400","est":220},{"id":"ChIJMx1LK2qpQjQRIeYhrf8xWIA","n":"Pasta Five 五醬義大利麵","c":"義式","r":4.6,"k":157,"la":25.049098,"lo":121.449902,"z":"walk12","d":613,"h":[[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]],[[690,870],[1020,1230]]],"hk":["味道很好，醬汁很濃郁，飲料也很好喝！","東西好吃、飲料好喝，服務也是一流，大推！"],"dish":"義大利麵","m":["異國風","想吃麵"],"pr":"200-400","est":260}];
+const A={la:25.0542173,lo:121.4476478},H={la:25.0596333,lo:121.4495139},G={la:25.0498546,lo:121.4472241};
+const ZN={near:'A區周邊',gym:'健身房路上',walk12:'走 12 分鐘',mall:'宏匯廣場'};
+const PN={lt200:'$200↓','200-400':'$200–400',gt400:'$400↑'};
+const MOODS=[
+ {k:'累爛了，想被療癒',t:['療癒暖胃','想喝湯'],say:'辛苦了～先來點暖呼呼的，讓胃先被抱一下。'},
+ {k:'餓扁了想大吃',t:['重口味','吃到飽滿足','想吃飯'],say:'那就不要客氣，挑幾間份量夠、味道夠的！'},
+ {k:'想吃清爽一點',t:['清爽健康'],say:'今天走輕盈路線，吃完不會有負擔～'},
+ {k:'今天值得犒賞',t:['犒賞自己','異國風'],say:'做得好！這幾間適合好好坐下來吃一頓。'},
+ {k:'懶得想，快點吃',t:['快速解決','一個人也自在'],say:'交給我，這幾間點了很快就能開動。'},
+ {k:'嘴饞想吃罪惡的',t:['重口味','宵夜感'],say:'偶爾放縱一下沒關係，罪惡感我幫你扛。'},
+ {k:'想吃麵',t:['想吃麵'],say:'吸麵時間到！幫你挑了三碗。'},
+ {k:'想出國一下',t:['異國風'],say:'不用搭飛機，走路就能出國～'},
+];
+const WIN=[17*60+30,21*60],NEED=60,RECENT_DAYS=5;
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Taipei'}));
+const todayIdx=(now.getDay()+6)%7;
+const wk=['週一','週二','週三','週四','週五','週六','週日'];
+{const T=['庭庭～上班辛苦了 ♥','庭庭～今天也很棒喔！','庭庭～今天心情如何？'],S=['我們來吃點好吃的吧','要不要來吃點療癒美食呀','今天想吃點什麼？'];
+ const r=a=>a[Math.random()*a.length|0];const t=todayIdx===4?'太好了 ♥終於是週五啦～':r(T);
+ document.getElementById('hello').innerHTML=t.replace('♥','<span class="heart">♥</span>');document.getElementById('say').textContent=r(S);}
+const mallEl=document.getElementById('mall'),gymEl=document.getElementById('gymt');gymEl.checked=store.get('gym',false);let picks=[],eaten=store.get('eaten',{}),price=new Set(store.get('price',[])),mood=null,hkIdx={};
+const farEl=$('#far'),dayEl=$('#day');farEl.checked=store.get('walk10',false);dayEl.value=todayIdx;
+
+
+const walk=d=>Math.max(1,Math.ceil(d*1.3/75));
+const fmt=m=>{m%=1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+function hoursText(s,day){if(!s.h)return'營業時間未提供';const iv=s.h[day];if(!iv.length)return wk[day]+'公休';return iv.map(([a,b])=>b-a>=1439?'24 小時':fmt(a)+'–'+fmt(b)).join('、')}
+function openDinner(s,day){if(!s.h)return true;let t=0;for(const[a,b]of s.h[day])t+=Math.max(0,Math.min(b,WIN[1])-Math.max(a,WIN[0]));
+  for(const[a,b]of s.h[(day+6)%7])if(b>1440)t+=Math.max(0,Math.min(b-1440,WIN[1])-Math.max(a-1440,WIN[0]));return t>=NEED}
+(function(){const lim=Date.now()-RECENT_DAYS*864e5;for(const k in eaten)if(eaten[k]<lim)delete eaten[k];store.set('eaten',eaten)})();
+const zoneOK=s=>mallEl.checked?s.z==='mall':gymEl.checked?s.z==='gym':(s.z==='near'||s.z==='gym'||(s.z==='walk12'&&farEl.checked));
+const priceOK=s=>!price.size||price.has(s.pr);
+const inPool=s=>zoneOK(s)&&priceOK(s)&&openDinner(s,+dayEl.value)&&!eaten[s.id];
+const pool=()=>DATA.filter(inPool);
+const gmap=s=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n)+'&query_place_id='+s.id;
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---- food art ---- */
+const GROUP={麵食:'noodle',拉麵:'noodle',越式:'noodle',泰式:'noodle',火鍋:'pot',丼飯:'rice',咖哩:'rice',中式:'rice',台式:'rice',台菜:'rice',港式:'rice',日式:'rice',鐵板:'rice',韓式:'pot',義式:'west',披薩:'west',洋食:'west',早午餐:'west',鹽酥雞:'fried',炸物:'fried',速食:'fried',小吃:'fried',滷味:'fried',健康餐:'green',美式:'west',印度:'rice',燒肉:'pot',甜點:'west'};
+const ART={
+noodle:`<svg viewBox="0 0 120 90"><g class="steam" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round"><path d="M44 30c-4-6 4-9 0-15"/><path d="M60 28c-4-6 4-9 0-15"/><path d="M76 30c-4-6 4-9 0-15"/></g><path d="M86 46l26-36M92 48l24-34" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><path d="M14 46h92c0 24-20 38-46 38S14 70 14 46z" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><path d="M22 46c8-8 14 2 22-5s14 4 22-3 14 4 24 8" stroke="var(--yolk)" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="40" cy="44" r="6" fill="var(--tomato)" opacity=".85"/><path d="M28 58h64" stroke="var(--tomato)" stroke-width="3" stroke-dasharray="3 8" stroke-linecap="round"/></svg>`,
+pot:`<svg viewBox="0 0 120 90"><g class="steam" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round"><path d="M46 26c-4-6 4-9 0-15"/><path d="M62 24c-4-6 4-9 0-15"/><path d="M78 26c-4-6 4-9 0-15"/></g><rect x="8" y="40" width="10" height="7" rx="3" fill="var(--ink)"/><rect x="102" y="40" width="10" height="7" rx="3" fill="var(--ink)"/><path d="M16 38h88v22c0 14-12 24-26 24H42C28 84 16 74 16 60z" fill="var(--tomato)" stroke="var(--ink)" stroke-width="3"/><ellipse cx="60" cy="38" rx="44" ry="8" fill="var(--yolk)" stroke="var(--ink)" stroke-width="3"/><circle cx="44" cy="37" r="5" fill="var(--basil)"/><circle cx="66" cy="36" r="4" fill="var(--surface)"/><path d="M76 34l10 5" stroke="var(--tomato)" stroke-width="4" stroke-linecap="round"/></svg>`,
+rice:`<svg viewBox="0 0 120 90"><g class="steam" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round"><path d="M50 22c-4-6 4-9 0-15"/><path d="M70 22c-4-6 4-9 0-15"/></g><path d="M22 40c4-14 20-20 38-20s34 6 38 20z" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><ellipse cx="48" cy="32" rx="12" ry="6" fill="var(--yolk)"/><circle cx="48" cy="32" r="4" fill="#F29B12"/><path d="M64 30c6-4 16-4 22 2" stroke="#9A5B2C" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M16 40h88c0 24-20 40-44 40S16 64 16 40z" fill="var(--tomato)" stroke="var(--ink)" stroke-width="3"/><path d="M26 52h68" stroke="var(--surface)" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/></svg>`,
+west:`<svg viewBox="0 0 120 90"><ellipse cx="60" cy="58" rx="50" ry="22" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><ellipse cx="60" cy="54" rx="30" ry="12" fill="var(--yolk)"/><path d="M38 52c6-6 10 4 16-2s10 4 16-2 10 4 14 2" stroke="#E7A93A" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="50" cy="50" r="5" fill="var(--tomato)"/><circle cx="68" cy="56" r="4.5" fill="var(--tomato)"/><path d="M60 46c3-4 7-4 9 0" stroke="var(--basil)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M100 18v30M95 18v10M105 18v10M100 28c-5 0-5-10-5-10M100 28c5 0 5-10 5-10" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+fried:`<svg viewBox="0 0 120 90"><path d="M30 34h60l-8 48H38z" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><path d="M34 44h52" stroke="var(--tomato)" stroke-width="4"/><g stroke="var(--ink)" stroke-width="2.5"><path d="M36 34c-2-10 4-16 12-14 2-8 12-10 16-4 6-6 16-2 16 6 8 0 10 8 6 12z" fill="#E9A440"/></g><circle cx="48" cy="26" r="2" fill="var(--ink)"/><circle cx="66" cy="22" r="2" fill="var(--ink)"/><circle cx="78" cy="28" r="2" fill="var(--ink)"/><path d="M90 30l18-22" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><path d="M52 60h16" stroke="var(--yolk)" stroke-width="5" stroke-linecap="round"/></svg>`,
+green:`<svg viewBox="0 0 120 90"><path d="M14 44h92c0 24-20 38-46 38S14 68 14 44z" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><path d="M24 44c0-12 10-18 18-14 4-12 20-12 24-2 8-6 22-2 22 10 6 0 10 4 8 6z" fill="var(--basil)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="46" cy="40" r="6" fill="var(--tomato)"/><ellipse cx="72" cy="40" rx="10" ry="6" fill="#F3A27A" stroke="var(--ink)" stroke-width="2"/><circle cx="88" cy="40" r="4" fill="var(--yolk)"/></svg>`};
+const grp=s=>GROUP[s.c]||'rice';
+
+/* ---- mood matching (offline) ---- */
+const KW=[[/冷|暖|熱|湯|療癒|累|下雨|雨/,['療癒暖胃','想喝湯']],[/辣|重口|鹹|罪惡|炸|爽/,['重口味','宵夜感']],[/清爽|健康|減|輕|瘦|菜/,['清爽健康']],[/犒賞|慶祝|約會|好好|奢侈|升職|發薪/,['犒賞自己']],[/快|趕|懶|隨便|一個人|自己/,['快速解決','一個人也自在']],[/麵/,['想吃麵']],[/飯|丼/,['想吃飯']],[/異國|泰|越|義|韓|日|出國/,['異國風']],[/餓|大吃|吃到飽|飽/,['吃到飽滿足','重口味']]];
+function tagsFrom(text){const t=new Set();for(const[re,tags]of KW)if(re.test(text))tags.forEach(x=>t.add(x));
+  if(/便宜|省|預算|窮|月底/.test(text))t.add('$cheap');return[...t]}
+function ruleRank(tags,p){const cheap=tags.includes('$cheap');
+  return p.map(s=>{let sc=Math.random()*2.2+(s.r-4)*2;for(const t of tags)if(s.m.includes(t))sc+=3;if(cheap&&s.pr==='lt200')sc+=3;return{s,sc}}).sort((a,b)=>b.sc-a.sc)}
+function pickThree(ranked){const out=[],cats=new Set();for(const{s}of ranked){if(out.length>=3)break;const g=grp(s);if(cats.has(g)&&ranked.length>8)continue;cats.add(g);out.push(s)}
+  for(const{s}of ranked){if(out.length>=3)break;if(!out.includes(s))out.push(s)}return out}
+function whyFor(s,tags){const hit=s.m.filter(t=>tags.includes(t));return hit.length?'符合「'+hit.slice(0,2).join('、')+'」':''}
+
+/* ---- render ---- */
+function renderInfo(){const p=pool(),day=+dayEl.value,zc={near:0,gym:0,walk12:0,mall:0};p.forEach(s=>zc[s.z]++);
+  $('#poolinfo').innerHTML=mallEl.checked?`${wk[day]}晚上宏匯廣場裡有 <b>${p.length}</b> 間可以挑`:gymEl.checked?`${wk[day]}晚上往健身工廠路上有 <b>${p.length}</b> 間可以挑`:`${wk[day]}晚上籤筒裡有 <b>${p.length}</b> 間（A區周邊 ${zc.near}・健身房路上 ${zc.gym}${farEl.checked?'・走 12 分鐘 '+zc.walk12:''}）`;
+  farEl.closest('label').style.opacity=(mallEl.checked||gymEl.checked)?.45:1;gymEl.closest('label').style.opacity=mallEl.checked?.45:1;renderMall();
+  $('#go').disabled=$('#rand').disabled=!p.length}
+function card(s,i){const g=grp(s),hk=s.hk.length?s.hk[(hkIdx[s.id]||0)%s.hk.length]:'';
+  return `<article class="card"><div class="plate t-${g}"><span class="rank">第${'一二三'[i]}間</span><span class="price">${PN[s.pr]||''}</span>${ART[g]}</div>
+  <div class="cbody">${hk?`<p class="quote">${esc(hk)}</p><div class="qsrc"><span>Google 評論摘錄</span>${s.hk.length>1?`<button data-hk="${i}">看另一則</button>`:''}</div>`:`<p class="quote">${esc(s.dish||s.c)}，附近評分 ${s.r.toFixed(1)} 的人氣店</p>`}
+  ${s._why?`<div class="why"><b>小飽：</b>${esc(s._why)}</div>`:''}
+  <h3 class="name">${esc(s.n)}</h3>
+  <div class="meta"><span class="chip cat">${s.c}${s.dish?'・'+esc(s.dish):''}</span><span class="chip z-${s.z}">${ZN[s.z]}</span></div>
+  <div class="meta"><span><span class="star">★</span> <span class="num">${s.r.toFixed(1)}</span> <span class="num">(${s.k.toLocaleString()})</span></span><span>步行 <span class="num">${walk(s.d)}</span> 分</span><span>${hoursText(s,+dayEl.value)}</span></div>
+  <div class="acts"><a class="primary" href="${gmap(s)}" target="_blank" rel="noopener">導航過去</a><button data-re="${i}">換一間</button><button data-eat="${i}">最近吃過</button></div></div></article>`}
+function renderCards(){const c=$('#cards');
+  if(!picks.some(Boolean)){c.innerHTML=`<div class="empty">選個心情，小飽幫你從 ${pool().length} 間裡挑三間</div>`;return}
+  c.innerHTML=picks.map((s,i)=>s?card(s,i):'').join('')}
+function renderRecent(){const ids=Object.keys(eaten);$('#recent').innerHTML=ids.length?`最近吃過（${RECENT_DAYS} 天內不推薦）：`+ids.map(id=>{const s=DATA.find(x=>x.id===id);return s?`<button data-un="${id}" title="放回籤筒">${esc(s.n)} ✕</button>`:''}).join(''):''}
+function renderRows(){const day=+dayEl.value;
+  $('#rows').innerHTML=DATA.slice().sort((a,b)=>a.d-b.d).map(s=>`<tr class="${inPool(s)?'':'off'}"><td><a href="${gmap(s)}" target="_blank" rel="noopener">${esc(s.n)}</a><br><span class="chip z-${s.z}">${ZN[s.z]}</span></td><td>${s.c}</td><td>${PN[s.pr]||'?'}</td><td class="num">${s.r.toFixed(1)}</td><td class="num">${walk(s.d)} 分</td><td>${openDinner(s,day)?'有開':'沒開'}<br><span style="color:var(--muted);font-size:12px">${hoursText(s,day)}</span></td></tr>`).join('')}
+function renderMall(){const box=$('#mallbox');box.hidden=!mallEl.checked;if(box.hidden)return;const day=+dayEl.value;
+  const ms=DATA.filter(s=>s.z==='mall').sort((a,b)=>inPool(b)-inPool(a)||b.r-a.r);
+  $('#mallnote').textContent=`共 ${ms.length} 間（Google 4.0 星以上），從泰隆走過去約 ${walk(640)} 分鐘。淡色的是不符合價位、當晚沒開或最近吃過的店。`;
+  $('#malllist').innerHTML=ms.map(s=>`<div class="mi ${inPool(s)?'':'off'}"><b>${esc(s.n)}</b><div class="meta"><span class="chip cat">${s.c}</span><span>${PN[s.pr]}</span><span><span class="star">★</span><span class="num">${s.r.toFixed(1)}</span></span></div>${s.hk[0]?`<q>${esc(s.hk[0])}</q>`:''}<span class="meta">${hoursText(s,day)}</span><a href="${gmap(s)}" target="_blank" rel="noopener">在 Google 地圖查看</a></div>`).join('')}
+function renderAll(){renderInfo();renderCards();renderRecent();drawMap();renderRows()}
+function say(t){$('#say').textContent=t}
+
+/* ---- mood chips ---- */
+$('#moods').innerHTML=MOODS.map((m,i)=>`<button class="mood" type="button" data-m="${i}" aria-pressed="false">${m.k}</button>`).join('');
+$('#moods').onclick=e=>{const b=e.target.closest('.mood');if(!b)return;
+  document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  mood=MOODS[+b.dataset.m];recommendRule(mood.t,mood.say)};
+function recommendRule(tags,line){const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');picks=[];renderAll();return}
+  picks=pickThree(ruleRank(tags,p));picks.forEach(s=>s._why=whyFor(s,tags));say(line);renderAll()}
+$('#rand').onclick=()=>{document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));mood=null;
+  const p=shuffle(pool());picks=p.slice(0,3);picks.forEach(s=>s._why='');say('隨緣抽三間，看看哪一間讓你心動？');renderAll()};
+
+/* ---- Claude-powered free text ---- */
+let samplePromise=window.claude?.use?window.claude.use('sample').catch(()=>null):Promise.resolve(null),sampleOK=true,ctl=null;
+$('#askform').onsubmit=async e=>{e.preventDefault();const text=$('#ask').value.trim();if(!text){$('#ask').focus();return}
+  document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));
+  const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');return}
+  const tags=tagsFrom(text);const sample=sampleOK?await samplePromise:null;
+  if(!sample){recommendRule(tags,tags.length?'我照你說的感覺挑了這三間～':'我還不太確定你想吃什麼，先挑三間人氣店給你參考！');return}
+  $('#go').disabled=true;say('');$('#say').innerHTML='<span class="dots">小飽想想看</span>';
+  ctl?.abort();ctl=new AbortController();
+  const list=p.map(s=>({id:s.id,n:s.n,c:s.c,dish:s.dish,m:s.m,price:PN[s.pr],walk:walk(s.d),r:s.r,hook:s.hk[0]||''}));
+  const prompt=`你是「小飽」，一個活潑貼心、愛吃的台灣女生，幫下班的朋友決定晚餐。朋友說：「${text}」\n\n從下面的候選店家（JSON）裡挑出最符合朋友心情與需求的 3 間，盡量不同類型。只能用清單裡的 id。\n回覆只要一個 JSON 物件：{"line":"小飽回應朋友的一句話，口語、溫暖、繁體中文，30字內","picks":[{"id":"...","why":"推薦理由，繁體中文，22字內，可以引用評論亮點"}]}\n\n候選：${JSON.stringify(list)}`;
+  try{const r=await sample.json(prompt,{modelTier:'quick',signal:ctl.signal,cache:false});
+    const byId=Object.fromEntries(p.map(s=>[s.id,s]));let got=(r&&Array.isArray(r.picks)?r.picks:[]).filter(x=>byId[x.id]).slice(0,3);
+    picks=got.map(x=>Object.assign(byId[x.id],{_why:String(x.why||'')}));
+    if(picks.length<3){const rest=pickThree(ruleRank(tags,p.filter(s=>!picks.includes(s))));while(picks.length<3&&rest.length){const s=rest.shift();s._why=whyFor(s,tags);picks.push(s)}}
+    say(String(r?.line||'幫你挑好了，看看哪間有感覺？'));renderAll()}
+  catch(err){if(err?.code==='cancelled')return;
+    if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(err?.code))sampleOK=false;
+    recommendRule(tags,err?.code==='rate_limited'?'我有點忙不過來，先用心情配對幫你挑三間～':'我先照關鍵字幫你挑了三間，看看有沒有喜歡的？')}
+  finally{$('#go').disabled=!pool().length}};
+
+/* ---- card actions ---- */
+function reroll(i){const others=new Set(picks.filter((s,j)=>s&&j!==i).map(s=>s.id));
+  let cand=pool().filter(s=>!others.has(s.id)&&(!picks[i]||s.id!==picks[i].id));if(!cand.length)return;
+  const tags=mood?mood.t:[];const s=tags.length?ruleRank(tags,cand)[0].s:cand[Math.random()*cand.length|0];s._why=whyFor(s,tags);picks[i]=s;renderCards();drawMap()}
+$('#cards').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.hk){const s=picks[+b.dataset.hk];hkIdx[s.id]=(hkIdx[s.id]||0)+1;renderCards()}
+  if(b.dataset.re)reroll(+b.dataset.re);
+  if(b.dataset.eat){const i=+b.dataset.eat;eaten[picks[i].id]=Date.now();store.set('eaten',eaten);reroll(i);renderInfo();renderRecent();renderRows()}};
+$('#recent').onclick=e=>{const b=e.target.closest('button');if(!b)return;delete eaten[b.dataset.un];store.set('eaten',eaten);renderAll()};
+document.querySelectorAll('.pchip').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.p==='all'?String(!price.size):String(price.has(b.dataset.p)))});
+document.querySelector('.seg[aria-label="價位"]').onclick=e=>{const b=e.target.closest('.pchip');if(!b)return;const p=b.dataset.p;
+  if(p==='all')price.clear();else price.has(p)?price.delete(p):price.add(p);if(price.size===3)price.clear();
+  store.set('price',[...price]);document.querySelectorAll('.pchip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.p==='all'?String(!price.size):String(price.has(x.dataset.p))));
+  picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+gymEl.onchange=()=>{store.set('gym',gymEl.checked);if(gymEl.checked)mallEl.checked=false;picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+mallEl.onchange=()=>{if(mallEl.checked)gymEl.checked=false;picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+farEl.onchange=()=>{store.set('walk10',farEl.checked);picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+dayEl.onchange=()=>{picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+
+/* ---- map ---- */
+const KX=111320*Math.cos(A.la*Math.PI/180),KY=110540;
+const P=o=>({x:(o.lo-A.lo)*KX,y:-(o.la-A.la)*KY});
+const pts=DATA.map(s=>P({la:s.la,lo:s.lo})).concat([P(H),P(G),{x:0,y:0}]);
+const minX=Math.min(...pts.map(p=>p.x))-110,maxX=Math.max(...pts.map(p=>p.x))+110,minY=Math.min(...pts.map(p=>p.y))-100,maxY=Math.max(...pts.map(p=>p.y))+50;
+const svg=$('#map');svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
+let sel=null;
+function drawMap(){const pg=P(G),ph=P(H),ids=picks.map(s=>s&&s.id);const ang=Math.atan2(pg.y,pg.x)*180/Math.PI,len=Math.hypot(pg.x,pg.y);
+  let h=`<g fill="none" stroke-width="2.5"><circle cx="0" cy="0" r="692" stroke="var(--plum)" stroke-dasharray="6 8" opacity="${farEl.checked&&!mallEl.checked?0.9:0.3}"/>
+   <circle cx="${ph.x}" cy="${ph.y}" r="95" fill="var(--sky-soft)" fill-opacity="${mallEl.checked?0.9:0.4}" stroke="var(--sky)" stroke-dasharray="4 6"/>
+   <circle cx="0" cy="0" r="350" fill="var(--tomato-soft)" fill-opacity=".55" stroke="var(--tomato)" stroke-dasharray="6 6"/>
+   <rect x="0" y="-120" width="${len}" height="240" rx="120" transform="rotate(${ang})" fill="var(--basil-soft)" fill-opacity="${gymEl.checked?0.95:0.45}" stroke="var(--basil)" stroke-dasharray="4 6"/></g>`;
+  const col={near:'var(--tomato)',gym:'var(--basil)',walk12:'var(--plum)',mall:'var(--sky)'};
+  DATA.slice().sort((a,b)=>ids.includes(a.id)-ids.includes(b.id)).forEach(s=>{const p=P(s),pk=ids.indexOf(s.id);
+    if(pk>=0)h+=`<g class="dot" data-id="${s.id}" style="cursor:pointer"><circle cx="${p.x}" cy="${p.y}" r="34" fill="${col[s.z]}" stroke="var(--surface)" stroke-width="5"/><text x="${p.x}" y="${p.y+12}" text-anchor="middle" font-size="34" font-weight="700" fill="#fff" font-family="var(--mono)">${pk+1}</text></g>`;
+    else h+=`<circle class="dot" data-id="${s.id}" cx="${p.x}" cy="${p.y}" r="${sel===s.id?22:15}" fill="${inPool(s)?col[s.z]:'var(--dim)'}" stroke="${sel===s.id?'var(--ink)':'var(--surface)'}" stroke-width="3" style="cursor:pointer"><title>${esc(s.n)}</title></circle>`});
+  const lm=(p,label,shape)=>`<g>${shape}<text x="${p.x}" y="${p.y-34}" text-anchor="middle" font-size="40" font-weight="700" fill="var(--ink)" stroke="var(--bg)" stroke-width="10" paint-order="stroke" font-family="var(--display)">${label}</text></g>`;
+  h+=lm({x:0,y:0},'泰隆大鎮A區',`<path d="M-17 10 V-6 L0 -20 L17 -6 V10 Z" fill="var(--ink)" stroke="var(--surface)" stroke-width="3"/>`);
+  h+=lm(ph,'宏匯廣場',`<rect x="${ph.x-15}" y="${ph.y-15}" width="30" height="30" rx="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="3"/>`);
+  h+=lm(pg,'健身工廠',`<g transform="translate(${pg.x},${pg.y})"><rect x="-18" y="-4" width="36" height="8" fill="var(--ink)"/><rect x="-21" y="-13" width="10" height="26" rx="2" fill="var(--ink)"/><rect x="11" y="-13" width="10" height="26" rx="2" fill="var(--ink)"/></g>`);
+  const sx=maxX-280,sy=maxY-34;
+  h+=`<g font-family="var(--mono)" font-size="32" fill="var(--muted)" stroke-linecap="round"><path d="M${sx} ${sy}h200M${sx} ${sy-8}v16M${sx+200} ${sy-8}v16" stroke="var(--muted)" stroke-width="3"/><text x="${sx+100}" y="${sy-14}" text-anchor="middle">200 m</text><text x="${minX+30}" y="${minY+50}" font-weight="700" fill="var(--ink)">N ↑</text></g>`;
+  svg.innerHTML=h}
+svg.onclick=e=>{const d=e.target.closest('.dot');if(!d)return;const s=DATA.find(x=>x.id===d.dataset.id);sel=s.id;const day=+dayEl.value;
+  $('#tip').innerHTML=`<b>${esc(s.n)}</b>・${s.c}・${PN[s.pr]||''}・★${s.r.toFixed(1)}・步行 ${walk(s.d)} 分・${wk[day]} ${hoursText(s,day)}　<a href="${gmap(s)}" target="_blank" rel="noopener">導航</a>`+(s.hk[0]?`<br>「${esc(s.hk[0])}」`:'')+(inPool(s)?'':`<br><span style="color:var(--muted)">今天不在籤筒裡（${!zoneOK(s)?(mallEl.checked?'現在只看宏匯':gymEl.checked?'現在只看健身房路上':s.z==='mall'?'要打開「我想去宏匯」':s.z==='gym'?'健身房路上':'要打開「走 12 分鐘」'):!priceOK(s)?'不在選的價位':eaten[s.id]?'最近吃過':'當晚沒開'}）</span>`);drawMap()};
+
+$('#total').textContent=DATA.length;renderAll();
+</script>
+
+</body>
+</html>
