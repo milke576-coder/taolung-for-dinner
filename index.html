@@ -184,8 +184,8 @@ tr.off td,tr.off td a{color:var(--muted)}
   </div>
   <div class="moods" id="moods" role="group" aria-label="今天的心情"></div>
   <form class="ask" id="askform">
-    <input id="ask" type="text" maxlength="80" placeholder="或打字跟小飽說：好冷想吃熱的、想吃辣、預算不多…" aria-label="跟小飽說你的心情">
-    <div class="btns"><button class="go" id="go" type="submit">幫我挑</button><button class="go alt" id="rand" type="button">隨便抽三間</button></div>
+    <input id="ask" type="text" maxlength="80" placeholder="想說什麼可以打在這：好冷想吃熱的、想吃辣…（不打也可以）" aria-label="跟小飽說你的心情">
+    <div class="btns"><button class="go" id="go" type="submit">點我挑三間</button></div>
   </form>
  </div>
 </header>
@@ -247,6 +247,7 @@ const MOODS=[
  {k:'懶得想，快點吃',t:['快速解決','一個人也自在'],say:'交給我，這幾間點了很快就能開動。'},
  {k:'嘴饞想吃罪惡的',t:['重口味','宵夜感'],say:'偶爾放縱一下沒關係，罪惡感我幫你扛。'},
  {k:'想吃麵',t:['想吃麵'],say:'吸麵時間到！幫你挑了三碗。'},
+ {k:'想吃飯',t:['想吃飯'],say:'來碗白飯配好料！幫你挑了三間。'},
  {k:'想出國一下',t:['異國風'],say:'不用搭飛機，走路就能出國～'},
 ];
 const WIN=[17*60+30,21*60],NEED=60,RECENT_DAYS=5;
@@ -301,7 +302,7 @@ function whyFor(s,tags){const hit=s.m.filter(t=>tags.includes(t));return hit.len
 function renderInfo(){const p=pool(),day=+dayEl.value,zc={near:0,gym:0,walk12:0,mall:0};p.forEach(s=>zc[s.z]++);
   $('#poolinfo').innerHTML=mallEl.checked?`${wk[day]}晚上宏匯廣場裡有 <b>${p.length}</b> 間可以挑`:gymEl.checked?`${wk[day]}晚上往健身工廠路上有 <b>${p.length}</b> 間可以挑`:`${wk[day]}晚上籤筒裡有 <b>${p.length}</b> 間（A區周邊 ${zc.near}・健身房路上 ${zc.gym}${farEl.checked?'・走 12 分鐘 '+zc.walk12:''}）`;
   farEl.closest('label').style.opacity=(mallEl.checked||gymEl.checked)?.45:1;gymEl.closest('label').style.opacity=mallEl.checked?.45:1;renderMall();
-  $('#go').disabled=$('#rand').disabled=!p.length}
+  $('#go').disabled=!p.length}
 function card(s,i){const g=grp(s),hk=s.hk.length?s.hk[(hkIdx[s.id]||0)%s.hk.length]:'';
   return `<article class="card"><div class="plate t-${g}"><span class="rank">第${'一二三'[i]}間</span><span class="price">${PN[s.pr]||''}</span>${ART[g]}</div>
   <div class="cbody">${hk?`<p class="quote">${esc(hk)}</p><div class="qsrc"><span>Google 評論摘錄</span>${s.hk.length>1?`<button data-hk="${i}">看另一則</button>`:''}</div>`:`<p class="quote">${esc(s.dish||s.c)}，附近評分 ${s.r.toFixed(1)} 的人氣店</p>`}
@@ -330,12 +331,12 @@ $('#moods').onclick=e=>{const b=e.target.closest('.mood');if(!b)return;
   mood=MOODS[+b.dataset.m];recommendRule(mood.t,mood.say)};
 function recommendRule(tags,line){const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');picks=[];renderAll();return}
   picks=pickThree(ruleRank(tags,p));picks.forEach(s=>s._why=whyFor(s,tags));say(line);renderAll()}
-$('#rand').onclick=()=>{document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));mood=null;
+const randomPick=()=>{document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));mood=null;
   const p=shuffle(pool());picks=p.slice(0,3);picks.forEach(s=>s._why='');say('隨緣抽三間，看看哪一間讓你心動？');renderAll()};
 
 /* ---- Claude-powered free text ---- */
 let samplePromise=window.claude?.use?window.claude.use('sample').catch(()=>null):Promise.resolve(null),sampleOK=true,ctl=null;
-$('#askform').onsubmit=async e=>{e.preventDefault();const text=$('#ask').value.trim();if(!text){$('#ask').focus();return}
+$('#askform').onsubmit=async e=>{e.preventDefault();const text=$('#ask').value.trim();if(!text){if(mood)recommendRule(mood.t,mood.say);else randomPick();return}
   document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));
   const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');return}
   const tags=tagsFrom(text);const sample=sampleOK?await samplePromise:null;
