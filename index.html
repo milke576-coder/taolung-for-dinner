@@ -3,16 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
 <title>泰隆晚餐籤筒</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="新莊泰隆大鎮 A 區專屬晚餐籤筒，支援心情複選、庭庭評分與冷宮機制、價位距離篩選與手繪地圖。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: yolk-yellow hero where 小飽 asks about your mood → filter strip → three "dish" cards led by a review quote → scale map → full list */
 :root{
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
   --bg:#FFF9F1;--surface:#FFFFFF;--ink:#3A2216;--muted:#8A6E5E;--line:#F0DFCF;
   --tomato:#E5442C;--tomato-soft:#FDE3DC;--yolk:#FFC83D;--yolk-soft:#FFF0C2;--basil:#3B8A57;--basil-soft:#DDF0E2;--plum:#8A5BB8;--plum-soft:#EFE3F8;--sky:#2B78B0;--sky-soft:#DDEEFA;--blouse:#FFF6EA;--shirt:#F49A3C;--shirt-line:#D97D22;
   --hero:#FFD25A;--hero-ink:#3A2216;--dim:#E2D3C6;--skin:#FFE0C7;--hair:#3A2216;
@@ -26,7 +24,7 @@
   --bg:#1C1410;--surface:#2A1E18;--ink:#F7EADF;--muted:#BFA693;--line:#43322A;
   --tomato:#FF6B50;--tomato-soft:#4A2219;--yolk:#FFCF57;--yolk-soft:#3F3218;--basil:#6CC08A;--basil-soft:#1E3526;--plum:#C29BEA;--plum-soft:#352745;--sky:#6FB6EA;--sky-soft:#1C3142;--blouse:#F3E7D6;--shirt:#E8893A;--shirt-line:#C46E22;
   --hero:#3A2A16;--hero-ink:#FFE7B3;--dim:#4A3A31;--skin:#F5CFB2;--hair:#20130C;color-scheme:dark}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6}
 .band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .inner{max-width:780px;margin:0 auto}
 /* hero */
@@ -40,17 +38,19 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
 .bubble p{margin:4px 0 0;color:var(--muted);font-size:14px}
 .heart{color:var(--tomato)}
 .say{font-family:var(--display);font-size:17px;line-height:1.5;margin:0;min-height:1.5em}
-.moods{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.mood{font:inherit;font-size:14px;padding:7px 13px;border-radius:999px;border:2px solid var(--hero-ink);background:var(--surface);color:var(--ink);cursor:pointer;transition:transform .12s}
+.moods-top{display:flex;justify-content:space-between;align-items:center;margin-top:16px;margin-bottom:8px;font-size:13px;color:var(--hero-ink)}
+.moods-count{background:color-mix(in srgb,var(--hero-ink) 14%,transparent);padding:2px 8px;border-radius:999px;font-weight:bold;font-size:12px}
+.moods-clear{background:none;border:none;color:var(--hero-ink);text-decoration:underline;cursor:pointer;font-size:12px;padding:2px 4px}
+.moods{display:flex;flex-wrap:wrap;gap:8px}
+.mood{font:inherit;font-size:14px;padding:7px 13px;border-radius:999px;border:2px solid var(--hero-ink);background:var(--surface);color:var(--ink);cursor:pointer;transition:transform .12s,background .12s;display:inline-flex;align-items:center;gap:4px;user-select:none}
 .mood:hover{transform:translateY(-2px)}
-.mood[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.mood[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff;box-shadow:0 2px 4px color-mix(in srgb,var(--tomato) 35%,transparent)}
 .mood:focus-visible,.go:focus-visible,.ghost:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .ask{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.ask .btns{display:flex;gap:10px;flex:1 1 100%}.ask .btns .go{flex:1 1 0}
 .ask input{flex:1 1 100%;min-width:0;font:inherit;padding:10px 14px;border-radius:14px;border:2px solid var(--hero-ink);background:var(--surface);color:var(--ink)}
-.go{font-family:var(--display);font-weight:700;font-size:19px;padding:11px 18px;border-radius:14px;border:0;background:var(--tomato);color:#fff;cursor:pointer;box-shadow:0 4px 0 color-mix(in srgb,var(--tomato) 55%,#000)}
+.go{font-family:var(--display);font-weight:700;font-size:19px;padding:11px 18px;border-radius:14px;border:0;background:var(--tomato);color:#fff;cursor:pointer;box-shadow:0 4px 0 color-mix(in srgb,var(--tomato) 55%,#000);transition:transform .1s,box-shadow .1s}
 .go:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--tomato) 55%,#000)}
-.go:disabled{opacity:.6}.go.alt{background:var(--surface);color:var(--ink);box-shadow:0 4px 0 var(--hero-ink);border:2px solid var(--hero-ink)}.go.alt:active{box-shadow:0 1px 0 var(--hero-ink)}
-.ghost{font:inherit;font-size:13.5px;background:transparent;border:0;color:var(--hero-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 2px}
+.go:disabled{opacity:.6}
 /* filters */
 main{display:flex;flex-direction:column;gap:22px;padding-block:20px 56px}
 .filters{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
@@ -95,6 +95,22 @@ select{font:inherit;font-size:13px;padding:4px 8px;border-radius:8px;border:1.5p
 .cat{border:1px solid var(--line);color:var(--ink)}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .star{color:#E79A00}
+
+/* 庭庭評分與冷宮專用樣式 */
+.ting-rating-box{background:color-mix(in srgb,var(--yolk-soft) 40%,var(--surface));border:1.5px solid var(--line);border-radius:14px;padding:8px 12px;display:flex;flex-direction:column;gap:4px}
+.ting-rating-header{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink);font-weight:600}
+.ting-stars{display:inline-flex;align-items:center;gap:4px}
+.ting-star-btn{background:none;border:none;cursor:pointer;padding:2px;font-size:20px;line-height:1;color:var(--dim);transition:transform .12s,color .12s;user-select:none}
+.ting-star-btn:hover{transform:scale(1.22)}
+.ting-star-btn.love{color:var(--tomato)}
+.ting-star-btn.cold{color:#1976D2}
+.cold-badge{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:2px 7px;border-radius:999px;background:#E3F2FD;color:#1976D2;font-weight:500}
+:root[data-theme="dark"] .cold-badge{background:#15324D;color:#90CAF9}
+.love-badge{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:2px 7px;border-radius:999px;background:var(--tomato-soft);color:var(--tomato);font-weight:500}
+.cold-panel{background:color-mix(in srgb,#E3F2FD 25%,var(--surface));border:1.5px dashed #90CAF9;border-radius:20px;padding:14px 18px}
+:root[data-theme="dark"] .cold-panel{background:color-mix(in srgb,#15324D 40%,var(--surface));border-color:#2A4D6C}
+.cold-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13px}
+
 .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
 .acts a,.acts button{font:inherit;font-size:13px;padding:6px 11px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;text-decoration:none}
 .acts a.primary{background:var(--tomato);color:#fff;border-color:var(--tomato)}
@@ -134,6 +150,8 @@ tr.off td,tr.off td a{color:var(--muted)}
 @keyframes dots{0%{content:""}25%{content:"．"}50%{content:"．．"}75%{content:"．．．"}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+</head>
+<body>
 
 <header class="band hero">
  <div class="inner">
@@ -142,35 +160,26 @@ tr.off td,tr.off td a{color:var(--muted)}
    <svg class="bao" viewBox="0 0 150 170" role="img" aria-label="小飽，一位長髮、捧著熱湯麵的大姐姐">
     <g class="steam" fill="none" stroke="var(--hero-ink)" stroke-width="3" stroke-linecap="round" opacity=".6">
       <path d="M60 124c-5-7 5-11 0-18"/><path d="M76 122c-5-7 5-11 0-18"/><path d="M92 124c-5-7 5-11 0-18"/></g>
-    <!-- long hair back -->
     <path d="M30 70C26 30 50 10 75 10s49 20 45 60l4 70c0 6-4 9-10 9H36c-6 0-10-3-10-9z" fill="var(--hair)"/>
-    <!-- neck + body -->
     <rect x="67" y="94" width="16" height="16" rx="5" fill="var(--skin)"/>
     <path d="M16 180c0-42 24-70 59-72 35 2 59 30 59 72z" fill="var(--shirt)"/>
     <path d="M64 108l11 15 11-15" fill="var(--blouse)" stroke="var(--shirt-line)" stroke-width="2"/>
-    <!-- face -->
     <ellipse cx="75" cy="68" rx="30" ry="34" fill="var(--skin)"/>
-    <!-- side-swept bangs -->
     <path d="M44 66C42 36 58 22 78 22c18 0 30 12 29 32-8-9-15-13-27-14-10 10-22 18-36 26z" fill="var(--hair)"/>
     <path d="M45 60c-5 18-5 36 1 52l8-2c-5-15-5-32-1-48z" fill="var(--hair)"/>
-        <!-- strands over shoulders -->
     <path d="M46 100c-7 16-8 32-4 48l10-2c-3-14-2-30 3-44z" fill="var(--hair)"/>
     <path d="M104 100c7 16 8 32 4 48l-10-2c3-14 2-30-3-44z" fill="var(--hair)"/>
-    <!-- chili clip -->
     <g transform="translate(96 30) rotate(32)"><path d="M0 0c6 0 9 6 7 14-2 7-8 12-14 14 4-6 5-12 3-18-1-5 1-10 4-10z" fill="var(--tomato)"/><path d="M2 -1c1-4 4-5 6-4" stroke="var(--yolk)" stroke-width="3" fill="none" stroke-linecap="round"/></g>
-    <!-- brows -->
     <path d="M55 58q7-4 13-1M82 57q6-3 13 1" stroke="var(--hair)" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <!-- eyes (almond, lashes) -->
     <g class="eyes-open" style="transform-origin:75px 72px">
       <ellipse cx="63" cy="72" rx="5.2" ry="6.4" fill="var(--hair)"/><ellipse cx="87" cy="72" rx="5.2" ry="6.4" fill="var(--hair)"/>
       <circle cx="65" cy="69.8" r="2" fill="#fff"/><circle cx="89" cy="69.8" r="2" fill="#fff"/><circle cx="61.6" cy="74.6" r=".9" fill="#fff"/><circle cx="85.6" cy="74.6" r=".9" fill="#fff"/>
-          </g>
+    </g>
     <g class="eyes-smile" fill="none" stroke="var(--hair)" stroke-width="3" stroke-linecap="round"><path d="M57 74q6-7 12 0"/><path d="M81 74q6-7 12 0"/></g>
     <ellipse cx="55" cy="83" rx="5" ry="2.8" fill="var(--tomato)" opacity=".25"/><ellipse cx="95" cy="83" rx="5" ry="2.8" fill="var(--tomato)" opacity=".25"/>
     <path d="M74 80q1 3 3 2" stroke="var(--hair)" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>
     <path d="M68 89q7 5 14 0" stroke="var(--tomato)" stroke-width="2.8" fill="none" stroke-linecap="round"/>
     <circle cx="45.5" cy="80" r="2.6" fill="var(--yolk)"/><circle cx="104.5" cy="80" r="2.6" fill="var(--yolk)"/>
-    <!-- bowl -->
     <path d="M40 132h70c0 22-16 34-35 34s-35-12-35-34z" fill="var(--surface)" stroke="var(--hero-ink)" stroke-width="3"/>
     <path d="M46 132c6-6 12 0 18-5s12 2 18-3 12 3 22 8" stroke="var(--yolk)" stroke-width="4" fill="none" stroke-linecap="round"/>
     <path d="M52 144h46" stroke="var(--tomato)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 7"/>
@@ -182,7 +191,13 @@ tr.off td,tr.off td a{color:var(--muted)}
      <p class="say" id="say">今天來吃點美食吧！</p>
    </div>
   </div>
-  <div class="moods" id="moods" role="group" aria-label="今天的心情"></div>
+
+  <div class="moods-top">
+    <span>今天的心情（可複選）：<span class="moods-count" id="moodscount" style="display:none"></span></span>
+    <button type="button" class="moods-clear" id="moodsclear" style="display:none">清除已選心情</button>
+  </div>
+  <div class="moods" id="moods" role="group" aria-label="今天的心情（可複選）"></div>
+
   <form class="ask" id="askform">
     <input id="ask" type="text" maxlength="80" placeholder="想說什麼可以打在這：好冷想吃熱的、想吃辣…（不打也可以）" aria-label="跟小飽說你的心情">
     <div class="btns"><button class="go" id="go" type="submit">點我挑三間</button></div>
@@ -208,6 +223,20 @@ tr.off td,tr.off td a{color:var(--muted)}
 
  <section class="cards" id="cards" aria-live="polite"></section>
  <div class="recent" id="recent"></div>
+
+ <section class="cold-panel" id="coldpanel" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <h3 style="font-weight:700;font-size:14.5px;margin:0;display:flex;align-items:center;gap:6px">
+      <span>❄️ 冷宮名單（被評 3 分以下，之後不再推薦）：</span>
+      <span class="cold-badge" id="coldcount">0 間</span>
+    </h3>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin:0 0 8px">
+    這些店家已被打入冷宮，籤筒抽籤時不會再出現。如果想重新給機會，點擊「赦免」即可放回候選籤筒。
+  </p>
+  <div class="recent" id="coldlist"></div>
+ </section>
+
  <section class="panel" id="mallbox" hidden>
   <h2>宏匯廣場裡的餐廳</h2>
   <p class="mallnote" id="mallnote"></p>
@@ -228,10 +257,10 @@ tr.off td,tr.off td a{color:var(--muted)}
  </section>
 
  <section class="panel">
-  <details><summary>全部店家清單</summary><div class="tbl"><table><thead><tr><th>店名</th><th>類型</th><th>價位</th><th>評分</th><th>步行</th><th>當天晚餐</th></tr></thead><tbody id="rows"></tbody></table></div></details>
+  <details><summary>全部店家清單</summary><div class="tbl"><table><thead><tr><th>店名</th><th>類型</th><th>價位</th><th>評分</th><th>庭庭評分</th><th>步行</th><th>當天晚餐</th></tr></thead><tbody id="rows"></tbody></table></div></details>
  </section>
 
- <p class="foot">店家、評分、營業時間與評論摘錄來自 Google 地圖（2026/10/29 抓取，評論為翻譯後摘錄），共 <span id="total"></span> 間：評分 4.0 以上、至少 10 則評論。價位是依評論提到的價格、Google 價格等級與一般行情估計的每人晚餐花費，僅供參考。步行時間以 A 區（中原路 305 號）直線距離 ×1.3、每分鐘 75m 估算。17:30–21:00 間營業滿 60 分鐘才算晚餐有開。「走 12 分鐘」範圍約為直線 690m 內。打開「今天要去健身」時只推薦往健身工廠路上的店，打開「我想去宏匯」時只推薦宏匯廣場裡的店。打字問小飽時，會用你自己的 Claude 額度請 Claude 從籤筒裡挑店；不能用時，改用心情標籤自動配對。</p>
+ <p class="foot">店家、評分、營業時間與評論摘錄來自 Google 地圖（2026/10/29 抓取，評論為翻譯後摘錄），共 <span id="total"></span> 間：評分 4.0 以上、至少 10 則評論。價位是依評論提到的價格、Google 價格等級與一般行情估計的每人晚餐花費，僅供參考。步行時間以 A 區（中原路 305 號）直線距離 ×1.3、每分鐘 75m 估算。17:30–21:00 間營業滿 60 分鐘才算晚餐有開。「走 12 分鐘」範圍約為直線 690m 內。打開「今天要去健身」時只推薦往健身工廠路上的店，打開「我想去宏匯」時只推薦宏匯廣場裡的店。心情按鈕支援多選複選，可同時搭配多種胃口！</p>
 </div></main>
 
 <script>
@@ -239,6 +268,8 @@ const DATA=[{"id":"ChIJO6exSbupQjQRiD7U_pwYxNs","n":"森禾良食精緻健康餐
 const A={la:25.0542173,lo:121.4476478},H={la:25.0596333,lo:121.4495139},G={la:25.0498546,lo:121.4472241};
 const ZN={near:'A區周邊',gym:'健身房路上',walk12:'走 12 分鐘',mall:'宏匯廣場'};
 const PN={lt200:'$200↓','200-400':'$200–400',gt400:'$400↑'};
+
+// 8 項心情選項（已移除「想出國一下」）
 const MOODS=[
  {k:'累爛了，想被療癒',t:['療癒暖胃','想喝湯'],say:'辛苦了～先來點暖呼呼的，讓胃先被抱一下。'},
  {k:'餓扁了想大吃',t:['重口味','吃到飽滿足','想吃飯'],say:'那就不要客氣，挑幾間份量夠、味道夠的！'},
@@ -247,32 +278,56 @@ const MOODS=[
  {k:'懶得想，快點吃',t:['快速解決','一個人也自在'],say:'交給我，這幾間點了很快就能開動。'},
  {k:'嘴饞想吃罪惡的',t:['重口味','宵夜感'],say:'偶爾放縱一下沒關係，罪惡感我幫你扛。'},
  {k:'想吃麵',t:['想吃麵'],say:'吸麵時間到！幫你挑了三碗。'},
- {k:'想吃飯',t:['想吃飯'],say:'來碗白飯配好料！幫你挑了三間。'},
- {k:'想出國一下',t:['異國風'],say:'不用搭飛機，走路就能出國～'},
+ {k:'想吃飯',t:['想吃飯'],say:'來碗白飯配好料！幫你挑了三間。'}
 ];
+
 const WIN=[17*60+30,21*60],NEED=60,RECENT_DAYS=5;
 const $=s=>document.querySelector(s);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
 const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Taipei'}));
 const todayIdx=(now.getDay()+6)%7;
 const wk=['週一','週二','週三','週四','週五','週六','週日'];
-{const T=['庭庭～上班辛苦了 ♥','庭庭～今天也很棒喔！','庭庭～今天心情如何？'],S=['我們來吃點好吃的吧','要不要來吃點療癒美食呀','今天想吃點什麼？'];
- const r=a=>a[Math.random()*a.length|0];const t=todayIdx===4?'太好了 ♥終於是週五啦～':r(T);
- document.getElementById('hello').innerHTML=t.replace('♥','<span class="heart">♥</span>');document.getElementById('say').textContent=r(S);}
-const mallEl=document.getElementById('mall'),gymEl=document.getElementById('gymt');gymEl.checked=store.get('gym',false);let picks=[],eaten=store.get('eaten',{}),price=new Set(store.get('price',[])),mood=null,hkIdx={};
-const farEl=$('#far'),dayEl=$('#day');farEl.checked=store.get('walk10',false);dayEl.value=todayIdx;
+{
+  const T=['庭庭～上班辛苦了 ♥','庭庭～今天也很棒喔！','庭庭～今天心情如何？'];
+  const S=['我們來吃點好吃的吧','要不要來吃點療癒美食呀','今天想吃點什麼？'];
+  const r=a=>a[Math.random()*a.length|0];
+  const t=todayIdx===4?'太好了 ♥ 終於是週五啦～':r(T);
+  document.getElementById('hello').innerHTML=t.replace('♥','<span class="heart">♥</span>');
+  document.getElementById('say').textContent=r(S);
+}
 
+const mallEl=document.getElementById('mall'),gymEl=document.getElementById('gymt');
+gymEl.checked=store.get('gym',false);
+const farEl=$('#far'),dayEl=$('#day');
+farEl.checked=store.get('walk10',false);
+dayEl.value=todayIdx;
+
+let picks=[];
+let eaten=store.get('eaten',{});
+let price=new Set(store.get('price',[]));
+let selectedMoods=new Set(); // 可複選集合
+let tingtingRatings=store.get('tingtingRatings',{}); // 庭庭評分字典: storeId -> 1..5
+let hkIdx={};
+
+// 清理超過 5 天的最近吃過
+(function(){const lim=Date.now()-RECENT_DAYS*864e5;for(const k in eaten)if(eaten[k]<lim)delete eaten[k];store.set('eaten',eaten)})();
+
+// 冷宮檢查：被庭庭評選 3 分以下 (<= 3)
+const isColdPalace=id=>tingtingRatings[id]!==undefined&&tingtingRatings[id]<=3;
 
 const walk=d=>Math.max(1,Math.ceil(d*1.3/75));
 const fmt=m=>{m%=1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
-function hoursText(s,day){if(!s.h)return'營業時間未提供';const iv=s.h[day];if(!iv.length)return wk[day]+'公休';return iv.map(([a,b])=>b-a>=1439?'24 小時':fmt(a)+'–'+fmt(b)).join('、')}
-function openDinner(s,day){if(!s.h)return true;let t=0;for(const[a,b]of s.h[day])t+=Math.max(0,Math.min(b,WIN[1])-Math.max(a,WIN[0]));
-  for(const[a,b]of s.h[(day+6)%7])if(b>1440)t+=Math.max(0,Math.min(b-1440,WIN[1])-Math.max(a-1440,WIN[0]));return t>=NEED}
-(function(){const lim=Date.now()-RECENT_DAYS*864e5;for(const k in eaten)if(eaten[k]<lim)delete eaten[k];store.set('eaten',eaten)})();
+function hoursText(s,day){if(!s.h)return'營業時間未提供';const iv=s.h[day];if(!iv||!iv.length)return wk[day]+'公休';return iv.map(([a,b])=>b-a>=1439?'24 小時':fmt(a)+'–'+fmt(b)).join('、')}
+function openDinner(s,day){if(!s.h)return true;let t=0;for(const[a,b]of s.h[day]||[])t+=Math.max(0,Math.min(b,WIN[1])-Math.max(a,WIN[0]));
+  for(const[a,b]of s.h[(day+6)%7]||[])if(b>1440)t+=Math.max(0,Math.min(b-1440,WIN[1])-Math.max(a-1440,WIN[0]));return t>=NEED}
+
 const zoneOK=s=>mallEl.checked?s.z==='mall':gymEl.checked?s.z==='gym':(s.z==='near'||s.z==='gym'||(s.z==='walk12'&&farEl.checked));
 const priceOK=s=>!price.size||price.has(s.pr);
-const inPool=s=>zoneOK(s)&&priceOK(s)&&openDinner(s,+dayEl.value)&&!eaten[s.id];
+// 核心入池條件：需符合區域、價位、當晚有開、不在最近吃過、且未打入冷宮！
+const inPool=s=>zoneOK(s)&&priceOK(s)&&openDinner(s,+dayEl.value)&&!eaten[s.id]&&!isColdPalace(s.id);
 const pool=()=>DATA.filter(inPool);
+
 const gmap=s=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n)+'&query_place_id='+s.id;
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -288,119 +343,327 @@ fried:`<svg viewBox="0 0 120 90"><path d="M30 34h60l-8 48H38z" fill="var(--surfa
 green:`<svg viewBox="0 0 120 90"><path d="M14 44h92c0 24-20 38-46 38S14 68 14 44z" fill="var(--surface)" stroke="var(--ink)" stroke-width="3"/><path d="M24 44c0-12 10-18 18-14 4-12 20-12 24-2 8-6 22-2 22 10 6 0 10 4 8 6z" fill="var(--basil)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="46" cy="40" r="6" fill="var(--tomato)"/><ellipse cx="72" cy="40" rx="10" ry="6" fill="#F3A27A" stroke="var(--ink)" stroke-width="2"/><circle cx="88" cy="40" r="4" fill="var(--yolk)"/></svg>`};
 const grp=s=>GROUP[s.c]||'rice';
 
-/* ---- mood matching (offline) ---- */
+/* ---- 標籤加權計算 ---- */
 const KW=[[/冷|暖|熱|湯|療癒|累|下雨|雨/,['療癒暖胃','想喝湯']],[/辣|重口|鹹|罪惡|炸|爽/,['重口味','宵夜感']],[/清爽|健康|減|輕|瘦|菜/,['清爽健康']],[/犒賞|慶祝|約會|好好|奢侈|升職|發薪/,['犒賞自己']],[/快|趕|懶|隨便|一個人|自己/,['快速解決','一個人也自在']],[/麵/,['想吃麵']],[/飯|丼/,['想吃飯']],[/異國|泰|越|義|韓|日|出國/,['異國風']],[/餓|大吃|吃到飽|飽/,['吃到飽滿足','重口味']]];
 function tagsFrom(text){const t=new Set();for(const[re,tags]of KW)if(re.test(text))tags.forEach(x=>t.add(x));
   if(/便宜|省|預算|窮|月底/.test(text))t.add('$cheap');return[...t]}
 function ruleRank(tags,p){const cheap=tags.includes('$cheap');
-  return p.map(s=>{let sc=Math.random()*2.2+(s.r-4)*2;for(const t of tags)if(s.m.includes(t))sc+=3;if(cheap&&s.pr==='lt200')sc+=3;return{s,sc}}).sort((a,b)=>b.sc-a.sc)}
+  return p.map(s=>{let sc=Math.random()*2.2+(s.r-4)*2;for(const t of tags)if(s.m.includes(t))sc+=3.5;if(cheap&&s.pr==='lt200')sc+=3;return{s,sc}}).sort((a,b)=>b.sc-a.sc)}
 function pickThree(ranked){const out=[],cats=new Set();for(const{s}of ranked){if(out.length>=3)break;const g=grp(s);if(cats.has(g)&&ranked.length>8)continue;cats.add(g);out.push(s)}
   for(const{s}of ranked){if(out.length>=3)break;if(!out.includes(s))out.push(s)}return out}
-function whyFor(s,tags){const hit=s.m.filter(t=>tags.includes(t));return hit.length?'符合「'+hit.slice(0,2).join('、')+'」':''}
+function whyFor(s,tags){const hit=s.m.filter(t=>tags.includes(t));return hit.length?'符合「'+hit.slice(0,3).join('、')+'」':''}
+
+function getActiveMoodTags(){
+  const tags=new Set();
+  selectedMoods.forEach(i=>{if(MOODS[i])MOODS[i].t.forEach(t=>tags.add(t))});
+  return [...tags];
+}
+
+function updateSayForMoods(){
+  if(!selectedMoods.size){say('選幾個想吃的心情（可複選喔！），或者直接抽抽看～');return}
+  if(selectedMoods.size===1){const idx=[...selectedMoods][0];say(MOODS[idx].say);return}
+  const names=[...selectedMoods].map(i=>MOODS[i].k);
+  if(selectedMoods.size===2){say(`又想「${names[0]}」又想「${names[1]}」～小飽幫你挑出能兼顧的好滋味！`)}
+  else{say(`一次選了 ${selectedMoods.size} 種心情～小飽幫你挑出最能同時滿足的美味！`)}
+}
 
 /* ---- render ---- */
-function renderInfo(){const p=pool(),day=+dayEl.value,zc={near:0,gym:0,walk12:0,mall:0};p.forEach(s=>zc[s.z]++);
-  $('#poolinfo').innerHTML=mallEl.checked?`${wk[day]}晚上宏匯廣場裡有 <b>${p.length}</b> 間可以挑`:gymEl.checked?`${wk[day]}晚上往健身工廠路上有 <b>${p.length}</b> 間可以挑`:`${wk[day]}晚上籤筒裡有 <b>${p.length}</b> 間（A區周邊 ${zc.near}・健身房路上 ${zc.gym}${farEl.checked?'・走 12 分鐘 '+zc.walk12:''}）`;
-  farEl.closest('label').style.opacity=(mallEl.checked||gymEl.checked)?.45:1;gymEl.closest('label').style.opacity=mallEl.checked?.45:1;renderMall();
-  $('#go').disabled=!p.length}
-function card(s,i){const g=grp(s),hk=s.hk.length?s.hk[(hkIdx[s.id]||0)%s.hk.length]:'';
+function renderInfo(){
+  const p=pool(),day=+dayEl.value,zc={near:0,gym:0,walk12:0,mall:0};
+  p.forEach(s=>zc[s.z]++);
+  const coldCount=DATA.filter(s=>isColdPalace(s.id)).length;
+  const coldText=coldCount?`・冷宮排除 ${coldCount}`:'';
+  $('#poolinfo').innerHTML=mallEl.checked?`${wk[day]}晚上宏匯廣場裡有 <b>${p.length}</b> 間可以挑${coldText}`:gymEl.checked?`${wk[day]}晚上往健身工廠路上有 <b>${p.length}</b> 間可以挑${coldText}`:`${wk[day]}晚上籤筒裡有 <b>${p.length}</b> 間（A區周邊 ${zc.near}・健身房路上 ${zc.gym}${farEl.checked?'・走 12 分鐘 '+zc.walk12:''}${coldText}）`;
+  farEl.closest('label').style.opacity=(mallEl.checked||gymEl.checked)?.45:1;
+  gymEl.closest('label').style.opacity=mallEl.checked?.45:1;
+  renderMall();
+  $('#go').disabled=!p.length;
+}
+
+function card(s,i){
+  const g=grp(s),hk=s.hk.length?s.hk[(hkIdx[s.id]||0)%s.hk.length]:'';
+  const myRating=tingtingRatings[s.id];
+  const isCold=myRating!==undefined&&myRating<=3;
+
+  // 1~5星按鈕
+  let starsHtml='';
+  for(let star=1;star<=5;star++){
+    const filled=myRating!==undefined&&myRating>=star;
+    const cls=filled?(isCold?'cold':'love'):'';
+    starsHtml+=`<button type="button" class="ting-star-btn ${cls}" data-rate-id="${s.id}" data-rate-star="${star}" title="評 ${star} 分${star<=3?'（≤3分將打入冷宮）':'（4~5星愛店）'}">${filled?'★':'☆'}</button>`;
+  }
+
+  const ratingHeaderHtml=myRating!==undefined
+    ?(isCold?`<span class="cold-badge">❄️ ${myRating} 分・已打入冷宮</span>`:`<span class="love-badge">💖 ${myRating} 分・愛店推薦</span>`)
+    :`<span style="color:var(--muted);font-size:11.5px;font-weight:normal">（1~5分，3分以下進冷宮）</span>`;
+
   return `<article class="card"><div class="plate t-${g}"><span class="rank">第${'一二三'[i]}間</span><span class="price">${PN[s.pr]||''}</span>${ART[g]}</div>
   <div class="cbody">${hk?`<p class="quote">${esc(hk)}</p><div class="qsrc"><span>Google 評論摘錄</span>${s.hk.length>1?`<button data-hk="${i}">看另一則</button>`:''}</div>`:`<p class="quote">${esc(s.dish||s.c)}，附近評分 ${s.r.toFixed(1)} 的人氣店</p>`}
   ${s._why?`<div class="why"><b>小飽：</b>${esc(s._why)}</div>`:''}
   <h3 class="name">${esc(s.n)}</h3>
   <div class="meta"><span class="chip cat">${s.c}${s.dish?'・'+esc(s.dish):''}</span><span class="chip z-${s.z}">${ZN[s.z]}</span></div>
   <div class="meta"><span><span class="star">★</span> <span class="num">${s.r.toFixed(1)}</span> <span class="num">(${s.k.toLocaleString()})</span></span><span>步行 <span class="num">${walk(s.d)}</span> 分</span><span>${hoursText(s,+dayEl.value)}</span></div>
-  <div class="acts"><a class="primary" href="${gmap(s)}" target="_blank" rel="noopener">導航過去</a><button data-re="${i}">換一間</button><button data-eat="${i}">最近吃過</button></div></div></article>`}
-function renderCards(){const c=$('#cards');
-  if(!picks.some(Boolean)){c.innerHTML=`<div class="empty">選個心情，小飽幫你從 ${pool().length} 間裡挑三間</div>`;return}
-  c.innerHTML=picks.map((s,i)=>s?card(s,i):'').join('')}
-function renderRecent(){const ids=Object.keys(eaten);$('#recent').innerHTML=ids.length?`最近吃過（${RECENT_DAYS} 天內不推薦）：`+ids.map(id=>{const s=DATA.find(x=>x.id===id);return s?`<button data-un="${id}" title="放回籤筒">${esc(s.n)} ✕</button>`:''}).join(''):''}
-function renderRows(){const day=+dayEl.value;
-  $('#rows').innerHTML=DATA.slice().sort((a,b)=>a.d-b.d).map(s=>`<tr class="${inPool(s)?'':'off'}"><td><a href="${gmap(s)}" target="_blank" rel="noopener">${esc(s.n)}</a><br><span class="chip z-${s.z}">${ZN[s.z]}</span></td><td>${s.c}</td><td>${PN[s.pr]||'?'}</td><td class="num">${s.r.toFixed(1)}</td><td class="num">${walk(s.d)} 分</td><td>${openDinner(s,day)?'有開':'沒開'}<br><span style="color:var(--muted);font-size:12px">${hoursText(s,day)}</span></td></tr>`).join('')}
-function renderMall(){const box=$('#mallbox');box.hidden=!mallEl.checked;if(box.hidden)return;const day=+dayEl.value;
+  
+  <div class="ting-rating-box">
+    <div class="ting-rating-header">
+      <span style="display:inline-flex;align-items:center;gap:5px"><span>庭庭評分</span>${ratingHeaderHtml}</span>
+      ${isCold?`<button type="button" data-re="${i}" style="color:var(--tomato);background:none;border:none;cursor:pointer;font-size:11.5px;text-decoration:underline">換一間抽 ↻</button>`:''}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="ting-stars">${starsHtml}</div>
+      <span style="font-size:11.5px;color:var(--muted);font-family:var(--mono)">${myRating!==undefined?myRating+' / 5 分':'尚未評分'}</span>
+    </div>
+  </div>
+
+  <div class="acts"><a class="primary" href="${gmap(s)}" target="_blank" rel="noopener">導航過去</a><button data-re="${i}">換一間</button><button data-eat="${i}">最近吃過</button></div></div></article>`;
+}
+
+function renderCards(){
+  const c=$('#cards');
+  if(!picks.some(Boolean)){
+    c.innerHTML=selectedMoods.size
+      ?`<div class="empty">已選取心情標籤，點擊「點我挑三間」開始抽籤！</div>`
+      :`<div class="empty">選幾個想吃的心情（可複選），小飽幫你從 ${pool().length} 間裡挑三間</div>`;
+    return;
+  }
+  c.innerHTML=picks.map((s,i)=>s?card(s,i):'').join('');
+}
+
+function renderRecent(){
+  const ids=Object.keys(eaten);
+  $('#recent').innerHTML=ids.length?`最近吃過（${RECENT_DAYS} 天內不推薦）：`+ids.map(id=>{const s=DATA.find(x=>x.id===id);return s?`<button data-un="${id}" title="放回籤筒">${esc(s.n)} ✕</button>`:''}).join(''):'';
+}
+
+function renderColdPanel(){
+  const coldStores=DATA.filter(s=>isColdPalace(s.id));
+  const p=$('#coldpanel');
+  if(!coldStores.length){p.style.display='none';return}
+  p.style.display='block';
+  $('#coldcount').textContent=`${coldStores.length} 間`;
+  $('#coldlist').innerHTML=coldStores.map(s=>`
+    <div class="cold-chip">
+      <b>${esc(s.n)}</b>
+      <span style="color:#1976D2;font-family:var(--mono);font-size:12px">(${tingtingRatings[s.id]}★)</span>
+      <button type="button" data-pardon="${s.id}" style="color:var(--tomato);background:none;border:none;cursor:pointer;font-size:12px;text-decoration:underline;margin-left:2px" title="赦免移出冷宮">赦免 ✕</button>
+    </div>
+  `).join('');
+}
+
+function renderRows(){
+  const day=+dayEl.value;
+  $('#rows').innerHTML=DATA.slice().sort((a,b)=>a.d-b.d).map(s=>{
+    const score=tingtingRatings[s.id];
+    const scoreCol=score!==undefined
+      ?(score<=3?`<span class="cold-badge">❄️ ${score}分(冷宮)</span>`:`<span class="love-badge">💖 ${score}分</span>`)
+      :`<span style="color:var(--muted);font-size:12px;font-family:var(--mono)">-</span>`;
+    return `<tr class="${inPool(s)?'':'off'}">
+      <td><a href="${gmap(s)}" target="_blank" rel="noopener">${esc(s.n)}</a><br><span class="chip z-${s.z}">${ZN[s.z]}</span></td>
+      <td>${s.c}</td>
+      <td>${PN[s.pr]||'?'}</td>
+      <td class="num">${s.r.toFixed(1)}</td>
+      <td>${scoreCol}</td>
+      <td class="num">${walk(s.d)} 分</td>
+      <td>${openDinner(s,day)?'有開':'沒開'}<br><span style="color:var(--muted);font-size:12px">${hoursText(s,day)}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderMall(){
+  const box=$('#mallbox');box.hidden=!mallEl.checked;if(box.hidden)return;const day=+dayEl.value;
   const ms=DATA.filter(s=>s.z==='mall').sort((a,b)=>inPool(b)-inPool(a)||b.r-a.r);
-  $('#mallnote').textContent=`共 ${ms.length} 間（Google 4.0 星以上），從泰隆走過去約 ${walk(640)} 分鐘。淡色的是不符合價位、當晚沒開或最近吃過的店。`;
-  $('#malllist').innerHTML=ms.map(s=>`<div class="mi ${inPool(s)?'':'off'}"><b>${esc(s.n)}</b><div class="meta"><span class="chip cat">${s.c}</span><span>${PN[s.pr]}</span><span><span class="star">★</span><span class="num">${s.r.toFixed(1)}</span></span></div>${s.hk[0]?`<q>${esc(s.hk[0])}</q>`:''}<span class="meta">${hoursText(s,day)}</span><a href="${gmap(s)}" target="_blank" rel="noopener">在 Google 地圖查看</a></div>`).join('')}
-function renderAll(){renderInfo();renderCards();renderRecent();drawMap();renderRows()}
+  $('#mallnote').textContent=`共 ${ms.length} 間（Google 4.0 星以上），從泰隆走過去約 ${walk(640)} 分鐘。淡色的是不符合價位、當晚沒開、最近吃過或在冷宮裡的店。`;
+  $('#malllist').innerHTML=ms.map(s=>`<div class="mi ${inPool(s)?'':'off'}"><b>${esc(s.n)}</b><div class="meta"><span class="chip cat">${s.c}</span><span>${PN[s.pr]}</span><span><span class="star">★</span><span class="num">${s.r.toFixed(1)}</span></span></div>${s.hk[0]?`<q>${esc(s.hk[0])}</q>`:''}<span class="meta">${hoursText(s,day)}</span><a href="${gmap(s)}" target="_blank" rel="noopener">在 Google 地圖查看</a></div>`).join('');
+}
+
+function renderAll(){
+  renderInfo();
+  renderCards();
+  renderRecent();
+  renderColdPanel();
+  drawMap();
+  renderRows();
+}
+
 function say(t){$('#say').textContent=t}
 
-/* ---- mood chips ---- */
-$('#moods').innerHTML=MOODS.map((m,i)=>`<button class="mood" type="button" data-m="${i}" aria-pressed="false">${m.k}</button>`).join('');
-$('#moods').onclick=e=>{const b=e.target.closest('.mood');if(!b)return;
-  document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  mood=MOODS[+b.dataset.m];recommendRule(mood.t,mood.say)};
-function recommendRule(tags,line){const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');picks=[];renderAll();return}
-  picks=pickThree(ruleRank(tags,p));picks.forEach(s=>s._why=whyFor(s,tags));say(line);renderAll()}
-const randomPick=()=>{document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));mood=null;
-  const p=shuffle(pool());picks=p.slice(0,3);picks.forEach(s=>s._why='');say('隨緣抽三間，看看哪一間讓你心動？');renderAll()};
+/* ---- 渲染心情按鈕（支援複選） ---- */
+function renderMoodButtons(){
+  $('#moods').innerHTML=MOODS.map((m,i)=>{
+    const sel=selectedMoods.has(i);
+    return `<button class="mood" type="button" data-m="${i}" aria-pressed="${sel}" title="${sel?'點擊取消':'點擊加入複選'}">${sel?'✓ ':''}${m.k}</button>`;
+  }).join('');
+  const c=$('#moodscount'), clr=$('#moodsclear');
+  if(selectedMoods.size){
+    c.style.display='inline-block';c.textContent=`已選 ${selectedMoods.size} 項`;
+    clr.style.display='inline-block';
+  } else {
+    c.style.display='none';clr.style.display='none';
+  }
+}
+renderMoodButtons();
 
-/* ---- Claude-powered free text ---- */
-let samplePromise=window.claude?.use?window.claude.use('sample').catch(()=>null):Promise.resolve(null),sampleOK=true,ctl=null;
-$('#askform').onsubmit=async e=>{e.preventDefault();const text=$('#ask').value.trim();if(!text){if(mood)recommendRule(mood.t,mood.say);else randomPick();return}
-  document.querySelectorAll('.mood').forEach(x=>x.setAttribute('aria-pressed','false'));
-  const p=pool();if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');return}
-  const tags=tagsFrom(text);const sample=sampleOK?await samplePromise:null;
-  if(!sample){recommendRule(tags,tags.length?'我照你說的感覺挑了這三間～':'我還不太確定你想吃什麼，先挑三間人氣店給你參考！');return}
-  $('#go').disabled=true;say('');$('#say').innerHTML='<span class="dots">小飽想想看</span>';
-  ctl?.abort();ctl=new AbortController();
-  const list=p.map(s=>({id:s.id,n:s.n,c:s.c,dish:s.dish,m:s.m,price:PN[s.pr],walk:walk(s.d),r:s.r,hook:s.hk[0]||''}));
-  const prompt=`你是「小飽」，一個活潑貼心、愛吃的台灣女生，幫下班的朋友決定晚餐。朋友說：「${text}」\n\n從下面的候選店家（JSON）裡挑出最符合朋友心情與需求的 3 間，盡量不同類型。只能用清單裡的 id。\n回覆只要一個 JSON 物件：{"line":"小飽回應朋友的一句話，口語、溫暖、繁體中文，30字內","picks":[{"id":"...","why":"推薦理由，繁體中文，22字內，可以引用評論亮點"}]}\n\n候選：${JSON.stringify(list)}`;
-  try{const r=await sample.json(prompt,{modelTier:'quick',signal:ctl.signal,cache:false});
-    const byId=Object.fromEntries(p.map(s=>[s.id,s]));let got=(r&&Array.isArray(r.picks)?r.picks:[]).filter(x=>byId[x.id]).slice(0,3);
-    picks=got.map(x=>Object.assign(byId[x.id],{_why:String(x.why||'')}));
-    if(picks.length<3){const rest=pickThree(ruleRank(tags,p.filter(s=>!picks.includes(s))));while(picks.length<3&&rest.length){const s=rest.shift();s._why=whyFor(s,tags);picks.push(s)}}
-    say(String(r?.line||'幫你挑好了，看看哪間有感覺？'));renderAll()}
-  catch(err){if(err?.code==='cancelled')return;
-    if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(err?.code))sampleOK=false;
-    recommendRule(tags,err?.code==='rate_limited'?'我有點忙不過來，先用心情配對幫你挑三間～':'我先照關鍵字幫你挑了三間，看看有沒有喜歡的？')}
-  finally{$('#go').disabled=!pool().length}};
+// 點擊心情按鈕切換選取（複選模式）
+$('#moods').onclick=e=>{
+  const b=e.target.closest('.mood');if(!b)return;
+  const idx=+b.dataset.m;
+  if(selectedMoods.has(idx)) selectedMoods.delete(idx);
+  else selectedMoods.add(idx);
+  renderMoodButtons();
+  updateSayForMoods();
+  const tags=getActiveMoodTags();
+  if(tags.length) recommendRule(tags);
+  else {picks=[];renderAll();}
+};
 
-/* ---- card actions ---- */
-function reroll(i){const others=new Set(picks.filter((s,j)=>s&&j!==i).map(s=>s.id));
-  let cand=pool().filter(s=>!others.has(s.id)&&(!picks[i]||s.id!==picks[i].id));if(!cand.length)return;
-  const tags=mood?mood.t:[];const s=tags.length?ruleRank(tags,cand)[0].s:cand[Math.random()*cand.length|0];s._why=whyFor(s,tags);picks[i]=s;renderCards();drawMap()}
-$('#cards').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+$('#moodsclear').onclick=()=>{
+  selectedMoods.clear();
+  renderMoodButtons();
+  say('已清除心情標籤，點選按鈕可重新複選，或直接隨緣抽！');
+  picks=[];renderAll();
+};
+
+function recommendRule(tags,line){
+  const p=pool();
+  if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');picks=[];renderAll();return}
+  picks=pickThree(ruleRank(tags,p));
+  picks.forEach(s=>s._why=whyFor(s,tags));
+  if(line) say(line);
+  renderAll();
+}
+
+const randomPick=()=>{
+  selectedMoods.clear();renderMoodButtons();
+  const p=shuffle(pool());picks=p.slice(0,3);picks.forEach(s=>s._why='');
+  say('隨緣抽三間，看看哪一間讓你心動？');renderAll();
+};
+
+/* ---- 評分與冷宮處理 ---- */
+function rateStore(id,score){
+  tingtingRatings[id]=score;
+  store.set('tingtingRatings',tingtingRatings);
+  const s=DATA.find(x=>x.id===id);
+  const name=s?s.n:'這間餐廳';
+  if(score<=3){
+    say(`已將「${name}」評為 ${score} 分，打入冷宮❄️！之後籤筒不會再推薦這間囉～`);
+  } else {
+    say(`收到！「${name}」獲得庭庭 ${score} 分好評💖，是值得常訪的愛店！`);
+  }
+  renderAll();
+}
+
+function pardonStore(id){
+  delete tingtingRatings[id];
+  store.set('tingtingRatings',tingtingRatings);
+  const s=DATA.find(x=>x.id===id);
+  if(s) say(`已將「${s.n}」赦免移出冷宮🎉，已重新放回候選籤筒！`);
+  renderAll();
+}
+
+/* ---- 輸入框送出 ---- */
+$('#askform').onsubmit=e=>{
+  e.preventDefault();
+  const text=$('#ask').value.trim();
+  const p=pool();
+  if(!p.length){say('今天這個條件下沒有店有開耶，放寬價位或走遠一點試試？');return}
+  if(!text){
+    const activeTags=getActiveMoodTags();
+    if(activeTags.length) recommendRule(activeTags);
+    else randomPick();
+    return;
+  }
+  selectedMoods.clear();renderMoodButtons();
+  const tags=tagsFrom(text);
+  recommendRule(tags,tags.length?'我照你說的感覺挑了這三間～':'我先照關鍵字幫你挑了三間，看看有沒有喜歡的？');
+};
+
+/* ---- 卡片互動 ---- */
+function reroll(i){
+  const others=new Set(picks.filter((s,j)=>s&&j!==i).map(s=>s.id));
+  let cand=pool().filter(s=>!others.has(s.id)&&(!picks[i]||s.id!==picks[i].id));
+  if(!cand.length)return;
+  const tags=getActiveMoodTags();
+  const s=tags.length?ruleRank(tags,cand)[0].s:cand[Math.random()*cand.length|0];
+  s._why=whyFor(s,tags);
+  picks[i]=s;
+  renderCards();drawMap();
+}
+
+$('#cards').onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.rateId){
+    rateStore(b.dataset.rateId,+b.dataset.rateStar);
+    return;
+  }
   if(b.dataset.hk){const s=picks[+b.dataset.hk];hkIdx[s.id]=(hkIdx[s.id]||0)+1;renderCards()}
   if(b.dataset.re)reroll(+b.dataset.re);
-  if(b.dataset.eat){const i=+b.dataset.eat;eaten[picks[i].id]=Date.now();store.set('eaten',eaten);reroll(i);renderInfo();renderRecent();renderRows()}};
+  if(b.dataset.eat){
+    const i=+b.dataset.eat;eaten[picks[i].id]=Date.now();store.set('eaten',eaten);
+    reroll(i);renderInfo();renderRecent();renderRows();
+  }
+};
+
 $('#recent').onclick=e=>{const b=e.target.closest('button');if(!b)return;delete eaten[b.dataset.un];store.set('eaten',eaten);renderAll()};
+$('#coldpanel').onclick=e=>{const b=e.target.closest('button');if(!b||!b.dataset.pardon)return;pardonStore(b.dataset.pardon)};
+
+/* 篩選切換 */
 document.querySelectorAll('.pchip').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.p==='all'?String(!price.size):String(price.has(b.dataset.p)))});
-document.querySelector('.seg[aria-label="價位"]').onclick=e=>{const b=e.target.closest('.pchip');if(!b)return;const p=b.dataset.p;
+document.querySelector('.seg[aria-label="價位"]').onclick=e=>{
+  const b=e.target.closest('.pchip');if(!b)return;const p=b.dataset.p;
   if(p==='all')price.clear();else price.has(p)?price.delete(p):price.add(p);if(price.size===3)price.clear();
-  store.set('price',[...price]);document.querySelectorAll('.pchip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.p==='all'?String(!price.size):String(price.has(x.dataset.p))));
-  picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
+  store.set('price',[...price]);
+  document.querySelectorAll('.pchip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.p==='all'?String(!price.size):String(price.has(x.dataset.p))));
+  picks=picks.map(s=>s&&inPool(s)?s:null);renderAll();
+};
 gymEl.onchange=()=>{store.set('gym',gymEl.checked);if(gymEl.checked)mallEl.checked=false;picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
 mallEl.onchange=()=>{if(mallEl.checked)gymEl.checked=false;picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
 farEl.onchange=()=>{store.set('walk10',farEl.checked);picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
 dayEl.onchange=()=>{picks=picks.map(s=>s&&inPool(s)?s:null);renderAll()};
 
-/* ---- map ---- */
+/* ---- 地圖繪製 ---- */
 const KX=111320*Math.cos(A.la*Math.PI/180),KY=110540;
 const P=o=>({x:(o.lo-A.lo)*KX,y:-(o.la-A.la)*KY});
 const pts=DATA.map(s=>P({la:s.la,lo:s.lo})).concat([P(H),P(G),{x:0,y:0}]);
 const minX=Math.min(...pts.map(p=>p.x))-110,maxX=Math.max(...pts.map(p=>p.x))+110,minY=Math.min(...pts.map(p=>p.y))-100,maxY=Math.max(...pts.map(p=>p.y))+50;
 const svg=$('#map');svg.setAttribute('viewBox',`${minX} ${minY} ${maxX-minX} ${maxY-minY}`);
 let sel=null;
-function drawMap(){const pg=P(G),ph=P(H),ids=picks.map(s=>s&&s.id);const ang=Math.atan2(pg.y,pg.x)*180/Math.PI,len=Math.hypot(pg.x,pg.y);
+
+function drawMap(){
+  const pg=P(G),ph=P(H),ids=picks.map(s=>s&&s.id);const ang=Math.atan2(pg.y,pg.x)*180/Math.PI,len=Math.hypot(pg.x,pg.y);
   let h=`<g fill="none" stroke-width="2.5"><circle cx="0" cy="0" r="692" stroke="var(--plum)" stroke-dasharray="6 8" opacity="${farEl.checked&&!mallEl.checked?0.9:0.3}"/>
    <circle cx="${ph.x}" cy="${ph.y}" r="95" fill="var(--sky-soft)" fill-opacity="${mallEl.checked?0.9:0.4}" stroke="var(--sky)" stroke-dasharray="4 6"/>
    <circle cx="0" cy="0" r="350" fill="var(--tomato-soft)" fill-opacity=".55" stroke="var(--tomato)" stroke-dasharray="6 6"/>
    <rect x="0" y="-120" width="${len}" height="240" rx="120" transform="rotate(${ang})" fill="var(--basil-soft)" fill-opacity="${gymEl.checked?0.95:0.45}" stroke="var(--basil)" stroke-dasharray="4 6"/></g>`;
   const col={near:'var(--tomato)',gym:'var(--basil)',walk12:'var(--plum)',mall:'var(--sky)'};
-  DATA.slice().sort((a,b)=>ids.includes(a.id)-ids.includes(b.id)).forEach(s=>{const p=P(s),pk=ids.indexOf(s.id);
+  DATA.slice().sort((a,b)=>ids.includes(a.id)-ids.includes(b.id)).forEach(s=>{
+    const p=P(s),pk=ids.indexOf(s.id);
     if(pk>=0)h+=`<g class="dot" data-id="${s.id}" style="cursor:pointer"><circle cx="${p.x}" cy="${p.y}" r="34" fill="${col[s.z]}" stroke="var(--surface)" stroke-width="5"/><text x="${p.x}" y="${p.y+12}" text-anchor="middle" font-size="34" font-weight="700" fill="#fff" font-family="var(--mono)">${pk+1}</text></g>`;
-    else h+=`<circle class="dot" data-id="${s.id}" cx="${p.x}" cy="${p.y}" r="${sel===s.id?22:15}" fill="${inPool(s)?col[s.z]:'var(--dim)'}" stroke="${sel===s.id?'var(--ink)':'var(--surface)'}" stroke-width="3" style="cursor:pointer"><title>${esc(s.n)}</title></circle>`});
+    else h+=`<circle class="dot" data-id="${s.id}" cx="${p.x}" cy="${p.y}" r="${sel===s.id?22:15}" fill="${inPool(s)?col[s.z]:'var(--dim)'}" stroke="${sel===s.id?'var(--ink)':'var(--surface)'}" stroke-width="3" style="cursor:pointer"><title>${esc(s.n)}</title></circle>`;
+  });
   const lm=(p,label,shape)=>`<g>${shape}<text x="${p.x}" y="${p.y-34}" text-anchor="middle" font-size="40" font-weight="700" fill="var(--ink)" stroke="var(--bg)" stroke-width="10" paint-order="stroke" font-family="var(--display)">${label}</text></g>`;
   h+=lm({x:0,y:0},'泰隆大鎮A區',`<path d="M-17 10 V-6 L0 -20 L17 -6 V10 Z" fill="var(--ink)" stroke="var(--surface)" stroke-width="3"/>`);
   h+=lm(ph,'宏匯廣場',`<rect x="${ph.x-15}" y="${ph.y-15}" width="30" height="30" rx="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="3"/>`);
   h+=lm(pg,'健身工廠',`<g transform="translate(${pg.x},${pg.y})"><rect x="-18" y="-4" width="36" height="8" fill="var(--ink)"/><rect x="-21" y="-13" width="10" height="26" rx="2" fill="var(--ink)"/><rect x="11" y="-13" width="10" height="26" rx="2" fill="var(--ink)"/></g>`);
   const sx=maxX-280,sy=maxY-34;
   h+=`<g font-family="var(--mono)" font-size="32" fill="var(--muted)" stroke-linecap="round"><path d="M${sx} ${sy}h200M${sx} ${sy-8}v16M${sx+200} ${sy-8}v16" stroke="var(--muted)" stroke-width="3"/><text x="${sx+100}" y="${sy-14}" text-anchor="middle">200 m</text><text x="${minX+30}" y="${minY+50}" font-weight="700" fill="var(--ink)">N ↑</text></g>`;
-  svg.innerHTML=h}
-svg.onclick=e=>{const d=e.target.closest('.dot');if(!d)return;const s=DATA.find(x=>x.id===d.dataset.id);sel=s.id;const day=+dayEl.value;
-  $('#tip').innerHTML=`<b>${esc(s.n)}</b>・${s.c}・${PN[s.pr]||''}・★${s.r.toFixed(1)}・步行 ${walk(s.d)} 分・${wk[day]} ${hoursText(s,day)}　<a href="${gmap(s)}" target="_blank" rel="noopener">導航</a>`+(s.hk[0]?`<br>「${esc(s.hk[0])}」`:'')+(inPool(s)?'':`<br><span style="color:var(--muted)">今天不在籤筒裡（${!zoneOK(s)?(mallEl.checked?'現在只看宏匯':gymEl.checked?'現在只看健身房路上':s.z==='mall'?'要打開「我想去宏匯」':s.z==='gym'?'健身房路上':'要打開「走 12 分鐘」'):!priceOK(s)?'不在選的價位':eaten[s.id]?'最近吃過':'當晚沒開'}）</span>`);drawMap()};
+  svg.innerHTML=h;
+}
 
-$('#total').textContent=DATA.length;renderAll();
+svg.onclick=e=>{
+  const d=e.target.closest('.dot');if(!d)return;
+  const s=DATA.find(x=>x.id===d.dataset.id);sel=s.id;const day=+dayEl.value;
+  const tingScore=tingtingRatings[s.id];
+  const tingText=tingScore!==undefined
+    ?(tingScore<=3?`<span style="color:#1976D2;font-weight:bold">・❄️ 庭庭評分: ${tingScore}分 (冷宮)</span>`:`<span style="color:var(--tomato);font-weight:bold">・💖 庭庭評分: ${tingScore}分</span>`)
+    :'';
+
+  $('#tip').innerHTML=`<b>${esc(s.n)}</b>・${s.c}・${PN[s.pr]||''}・★${s.r.toFixed(1)}${tingText}・步行 ${walk(s.d)} 分・${wk[day]} ${hoursText(s,day)}　<a href="${gmap(s)}" target="_blank" rel="noopener">導航</a>`
+    +(s.hk[0]?`<br>「${esc(s.hk[0])}」`:'')
+    +(inPool(s)?'':`<br><span style="color:var(--muted)">今天不在籤筒裡（${isColdPalace(s.id)?`已打入冷宮（庭庭評分 ${tingScore} 分 ≤ 3分）`:!zoneOK(s)?(mallEl.checked?'現在只看宏匯':gymEl.checked?'現在只看健身房路上':s.z==='mall'?'要打開「我想去宏匯」':s.z==='gym'?'健身房路上':'要打開「走 12 分鐘」'):!priceOK(s)?'不在選的價位':eaten[s.id]?'最近吃過':'當晚沒開'}）</span>`);
+  drawMap();
+};
+
+$('#total').textContent=DATA.length;
+renderAll();
 </script>
 
 </body>
